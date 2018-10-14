@@ -1,6 +1,6 @@
-package graze.engine
+package graze.pasture
 
-class MapGenerator {
+class PastureGenerator {
 
     int width = 50
     int height = 50
@@ -11,48 +11,48 @@ class MapGenerator {
     *   Returns a 2D array of tiles
     */
     def generate() {
-        def map = []
+        def pasture = []
         for (int w = 0; w < width; w++) {
-            map[w] = []
+            pasture[w] = []
             for (int h = 0; h < height; h++) {
                 def isBorder = border && ((w == 0 || w == width -1) || (h == 0) || h == height - 1)
-                map[w][h] = isBorder ? border : tiles.pick()
+                pasture[w][h] = isBorder ? border : tiles.pick()
             }
         }
-        return map
+        return pasture
     }
 
     // Factory methods below
 
     /**
-    *   Sets the width of the map to generate
+    *   Sets the width of the pasture to generate
     */
-    MapGenerator width(int w) {
+    PastureGenerator width(int w) {
         width = w
         return this
     }
     
     /**
-    *   Sets the height of the map to generate
+    *   Sets the height of the pasture to generate
     */
-    MapGenerator height(int h) {
+    PastureGenerator height(int h) {
         height = h
         return this
     }
     
     
     /**
-    *   Sets the map of tile densities to use
+    *   Sets the pasture of tile densities to use
     */
-    MapGenerator tiles(WeightedMap t) {
+    PastureGenerator tiles(WeightedMap t) {
         tiles = t
         return this
     }
 
     /**
-    *   Sets the border tile of the map
+    *   Sets the border tile of the pasture
     */
-    MapGenerator border(Tile b) {
+    PastureGenerator border(Tile b) {
         border = b
         return this
     }

@@ -1,4 +1,4 @@
-package graze.engine
+package graze.pasture
 
 class WeightedMap extends HashMap<Object,Integer> {
 

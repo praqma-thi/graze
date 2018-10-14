@@ -10,7 +10,3 @@ dependencies {
    compile 'org.codehaus.groovy:groovy-all:2.5.2'
    testCompile 'junit:junit:4.12'
 }
-
-test {
-    testLogging.showStandardStreams = true
-}

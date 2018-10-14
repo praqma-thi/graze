@@ -1,4 +1,4 @@
-package graze.engine
+package graze.pasture
 
 import org.junit.Test
 
