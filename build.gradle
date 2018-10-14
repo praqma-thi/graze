@@ -18,4 +18,5 @@ jacocoTestReport {
     }
 }
 
+build.dependsOn('jacocoTestReport')
 jacocoTestReport.dependsOn('test')
