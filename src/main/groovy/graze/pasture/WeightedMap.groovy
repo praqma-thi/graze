@@ -13,7 +13,7 @@ class WeightedMap extends HashMap<Object,Integer> {
     */
     def pick() {
         int target = random.nextInt(weightSum())
-        
+
         int sum = 0
         for (def item in this) {
             sum += item.value
@@ -23,5 +23,11 @@ class WeightedMap extends HashMap<Object,Integer> {
         }
 
         return null // Shouldn't happen
+    }
+
+    static WeightedMap from(Map map) {
+        def weightedMap = new WeightedMap()
+        map.each { k, v -> weightedMap.put(k, v)}
+        return weightedMap
     }
 }

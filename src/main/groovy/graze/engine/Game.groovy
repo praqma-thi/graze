@@ -9,7 +9,7 @@ class Game {
     def pastureGenerator = new PastureGenerator()
             .width(50)
             .height(50)
-            .tiles([(Tile.DIRT): 50, (Tile.GRASS): 50] as WeightedMap)
+            .tiles(WeightedMap.from([(Tile.DIRT): 50, (Tile.GRASS): 50]))
             .border(Tile.FENCE)
 
     def pasture = [[]]
@@ -24,24 +24,35 @@ class Game {
         10.times { actors += new RCow() }
 
         // Generation sanity checks
-        def tileCount = pasture.size() * pasture[0].size()
+        def tileCount = pasture.flatten().grep { !it.isObstacle }.size()
         if (actors.size() > tileCount) {
-            throw new IllegalStateException("Map is too small for all actors to be placed")
+            throw new IllegalStateException("""\
+                Map is too small for all actors to be placed.
+                Try again with less actors, a bigger map, or
+                less obstacles.
+                """.stripIndent())
         }
 
         // Place actors
         def random = new Random()
         actors.each { actor ->
-            while (actor.x == 0  && actor.y == 0) {
+            while (actor.x == -1  || actor.y == -1) {
                 // Pick some coordinates
                 def x = random.nextInt(pasture.size())
                 def y = random.nextInt(pasture[0].size())
 
-                // Put the actor there if there's no one else there
-                if(!actors.any { it.x == x && it.y == y }) {
-                    actor.x = x
-                    actor.y = y
+                // Try again if there's already someone there
+                if (actors.any { it.x == x && it.y == y }) {
+                    continue
                 }
+
+                // Try again if it's an obstacle
+                if (pasture[x][y].isObstacle) {
+                    continue
+                }
+
+                actor.y = y
+                actor.x = x
             }
         }
     }

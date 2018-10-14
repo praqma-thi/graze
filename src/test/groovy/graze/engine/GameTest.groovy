@@ -33,13 +33,19 @@ class GameTest {
     void setup_doesnt_place_actors_on_obstacles() {
         def g = new Game()
         g.setup()
+        g.pastureGenerator.width = 7
+        g.pastureGenerator.height = 4
+        g.actors.each { actor ->
+            println g.pasture[actor.x][actor.y]
+            assert !g.pasture[actor.x][actor.y].isObstacle
+        }
     }
 
     @Test(expected = IllegalStateException.class)
     void setup_doesnt_generate_map_if_too_small() {
         def g = new Game()
         g.pastureGenerator.width = 5
-        g.pastureGenerator.height = 1
+        g.pastureGenerator.height = 2
         g.setup()
     }
 }

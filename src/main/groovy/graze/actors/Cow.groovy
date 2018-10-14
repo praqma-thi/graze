@@ -6,8 +6,8 @@ abstract class Cow {
 
     int food = 0
     int poop = 0
-    int x = 0
-    int y = 0
+    int x = -1
+    int y = -1
 
     abstract Action takeTurn(def surroundings)
 }

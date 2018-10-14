@@ -12,10 +12,14 @@ class PastureGenerator {
     */
     def generate() {
         def pasture = []
+        println tiles
         for (int w = 0; w < width; w++) {
             pasture[w] = []
             for (int h = 0; h < height; h++) {
                 def isBorder = border && ((w == 0 || w == width -1) || (h == 0) || h == height - 1)
+                print isBorder ? border : tiles.pick()
+                print " -> "
+                println isBorder ? border.class : tiles.pick().class
                 pasture[w][h] = isBorder ? border : tiles.pick()
             }
         }

@@ -1,7 +1,13 @@
 package graze.pasture
 
 enum Tile {
-    FENCE,
-    DIRT,
-    GRASS,
+    FENCE(true),
+    DIRT(false),
+    GRASS(false)
+
+    final boolean isObstacle
+
+    Tile(boolean isObstacle) {
+        this.isObstacle = isObstacle
+    }
 }
