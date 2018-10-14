@@ -1,7 +1,7 @@
 package graze.actors
 
 @groovy.transform.EqualsAndHashCode
-abstract class Cow {
+abstract class Cow implements Actor {
     String id = UUID.randomUUID().toString()
 
     int food = 0

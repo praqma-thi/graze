@@ -6,8 +6,8 @@ class PastureGeneratorTest {
     @Test
     void generate_dimensions_match() {
         def pasture = new PastureGenerator().width(15).height(30).generate()
-        assert pasture.size() == 15     // width
-        assert pasture[0].size == 30    // height
+        assert pasture.height == 30
+        assert pasture.width == 15  
     }
 
     @Test

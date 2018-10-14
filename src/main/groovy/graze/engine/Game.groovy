@@ -12,9 +12,12 @@ class Game {
             .tiles(WeightedMap.from([(Tile.DIRT): 50, (Tile.GRASS): 50]))
             .border(Tile.FENCE)
 
-    def pasture = [[]]
-    def actors = []
+    Pasture pasture = null
+    List<Actor> actors = []
 
+    /**
+    * Creates a new pasture and places actors on it
+    */
     void setup() {
         // Generate map
         pasture = pastureGenerator.generate()
@@ -23,7 +26,7 @@ class Game {
         actors.clear()
         10.times { actors += new RCow() }
 
-        // Generation sanity checks
+        // Check if there's enough room for the actors
         def tileCount = pasture.flatten().grep { !it.isObstacle }.size()
         if (actors.size() > tileCount) {
             throw new IllegalStateException("""\
@@ -38,8 +41,8 @@ class Game {
         actors.each { actor ->
             while (actor.x == -1  || actor.y == -1) {
                 // Pick some coordinates
-                def x = random.nextInt(pasture.size())
-                def y = random.nextInt(pasture[0].size())
+                def x = random.nextInt(pasture.width)
+                def y = random.nextInt(pasture.height)
 
                 // Try again if there's already someone there
                 if (actors.any { it.x == x && it.y == y }) {

@@ -36,7 +36,6 @@ class GameTest {
         g.pastureGenerator.width = 7
         g.pastureGenerator.height = 4
         g.actors.each { actor ->
-            println g.pasture[actor.x][actor.y]
             assert !g.pasture[actor.x][actor.y].isObstacle
         }
     }

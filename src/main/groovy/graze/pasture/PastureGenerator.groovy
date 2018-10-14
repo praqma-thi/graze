@@ -10,20 +10,16 @@ class PastureGenerator {
     /**
     *   Returns a 2D array of tiles
     */
-    def generate() {
+    Pasture generate() {
         def pasture = []
-        println tiles
-        for (int w = 0; w < width; w++) {
-            pasture[w] = []
-            for (int h = 0; h < height; h++) {
-                def isBorder = border && ((w == 0 || w == width -1) || (h == 0) || h == height - 1)
-                print isBorder ? border : tiles.pick()
-                print " -> "
-                println isBorder ? border.class : tiles.pick().class
-                pasture[w][h] = isBorder ? border : tiles.pick()
+        for (int y = 0; y < height; y++) {
+            pasture[y] = []
+            for (int x = 0; x < width; x++) {
+                def isBorder = border && ((y == 0 || y == height -1) || (x == 0) || x == width - 1)
+                pasture[y][x] = isBorder ? border : tiles.pick()
             }
         }
-        return pasture
+        return pasture as Pasture
     }
 
     // Factory methods below
