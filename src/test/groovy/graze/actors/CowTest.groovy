@@ -1,4 +1,4 @@
-package graze.actors
+package graze.actor
 
 import org.junit.Test
 

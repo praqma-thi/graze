@@ -1,4 +1,4 @@
-import graze.actors.*
+import graze.actor.*
 
 class RCow extends Cow {
     def brain = new Random()

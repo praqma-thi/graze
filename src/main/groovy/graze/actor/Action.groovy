@@ -1,4 +1,4 @@
-package graze.actors
+package graze.actor
 
 enum Action {
     STAND,

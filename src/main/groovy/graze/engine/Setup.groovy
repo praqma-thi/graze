@@ -1,8 +1,8 @@
 package graze.engine
 
 import graze.pasture.*
-import graze.actors.*
-import graze.actors.imp.*
+import graze.actor.*
+import graze.actor.imp.*
 
 class Setup {
 
@@ -13,39 +13,39 @@ class Setup {
             .border(Tile.FENCE)
 
     /**
-    * Creates a new pasture and places actors on it
+    * Creates a new pasture and places cows on it
     */
     Pasture newPasture() {
         // Generate map
         return pastureGenerator.generate()
     }
 
-    Map<Actor, Attributes> newActors(Pasture pasture) {
-        Map<Actor, Attributes> actors = [:]
+    Map<Cow, Attributes> newCows(Pasture pasture) {
+        Map<Cow, Attributes> cows = [:]
 
-        // Add actors
-        10.times { actors[new RCow()] = new Attributes() }
+        // Add cows
+        10.times { cows[new RCow()] = new Attributes() }
 
-        // Check if there's enough room for the actors
+        // Check if there's enough room for the cows
         def tileCount = pasture.flatten().grep { !it.isObstacle }.size()
-        if (actors.size() > tileCount) {
+        if (cows.size() > tileCount) {
             throw new IllegalStateException("""\
-                Map is too small for all actors to be placed.
-                Try again with less actors, a bigger map, or
+                Map is too small for all cows to be placed.
+                Try again with less cows, a bigger map, or
                 less obstacles.
                 """.stripIndent())
         }
 
-        // Place actors
+        // Place cows
         def random = new Random()
-        actors.each { actor, attributes ->
+        cows.each { cow, attributes ->
             while (attributes.x == -1  || attributes.y == -1) {
                 // Pick some coordinates
                 def x = random.nextInt(pasture.width)
                 def y = random.nextInt(pasture.height)
 
                 // Try again if there's already someone there
-                if (actors.attributes.any { it.x == x && it.y == y }) {
+                if (cows.attributes.any { it.x == x && it.y == y }) {
                     continue
                 }
 
@@ -59,6 +59,6 @@ class Setup {
             }
         }
 
-        return actors
+        return cows
     }
 }

@@ -12,19 +12,19 @@ class SetupTest {
     }
 
     @Test
-    void newActors_creates_actors() {
+    void newCows_creates_cows() {
         def setup = new Setup()
         def pasture = setup.newPasture()
-        def actors = setup.newActors(pasture)
-        assert actors.size() == 10
+        def cows = setup.newCows(pasture)
+        assert cows.size() == 10
     }
 
     @Test
-    void newActors_actors_dont_overlap() {
+    void newCows_cows_dont_overlap() {
         def setup = new Setup()
         def pasture = setup.newPasture()
-        def actors = setup.newActors(pasture)
-        def coordinates = actors.attributes.collect { [x: it.x, y: it.y] }
+        def cows = setup.newCows(pasture)
+        def coordinates = cows.attributes.collect { [x: it.x, y: it.y] }
         coordinates.each { my ->
             assert coordinates.grep { their ->
                 their.x == my.x && their.y == my.y 
@@ -33,24 +33,24 @@ class SetupTest {
     }
 
     @Test
-    void newActors_actors_arent_placed_on_obstacles() {
+    void newCows_cows_arent_placed_on_obstacles() {
         def setup = new Setup()
         setup.pastureGenerator.width(7) // TODO: move to a config file or something
         setup.pastureGenerator.height(4)
         def pasture = setup.newPasture()
-        def actors = setup.newActors(pasture)
-        actors.each { actor, attributes ->
+        def cows = setup.newCows(pasture)
+        cows.each { cow, attributes ->
             assert !pasture.getTile(attributes.x, attributes.y).isObstacle
         }
     }
 
     @Test(expected = IllegalStateException.class)
-    void newActors_throws_exception_when_map_too_small() {
+    void newCows_throws_exception_when_map_too_small() {
         def setup = new Setup()
         setup.pastureGenerator.border(Tile.FENCE)
         setup.pastureGenerator.width(5)
         setup.pastureGenerator.height(2)
         def pasture = setup.newPasture()
-        def actors = setup.newActors(pasture)
+        def cows = setup.newCows(pasture)
     }
 }
