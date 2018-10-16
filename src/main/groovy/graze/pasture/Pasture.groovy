@@ -1,6 +1,13 @@
 package graze.pasture
 
 class Pasture extends ArrayList<ArrayList<Tile>> {
+    Pasture(int width, int height) {
+        super(height)
+        height.times { y ->
+            this[y] = new ArrayList<Tile>(width)
+        }
+    }
+
     def surroundingsOf(x, y) {
         def fromX = x - 1 < 0 ? 0  : x - 1
         def fromY = y - 1 < 0 ? 0  : y - 1
@@ -9,11 +16,19 @@ class Pasture extends ArrayList<ArrayList<Tile>> {
         this.subList(fromY, toY).collect{ it.subList(fromX, toX) }
     }
 
-    def getHeight() {
+    Tile getTile(int x, int y) {
+        return this[y][x]
+    }
+
+    void setTile(int x, int y, Tile tile) {
+        this[y][x] = tile
+    }
+
+    int getHeight() {
         return this.size()
     }
 
-    def getWidth() {
+    int getWidth() {
         return this[0].size()
     }
 }

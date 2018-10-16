@@ -4,22 +4,21 @@ class PastureGenerator {
 
     int width = 50
     int height = 50
-    WeightedMap tiles = [(Tile.DIRT): 1]
+    WeightedMap tiles = WeightedMap.from([(Tile.DIRT): 1])
     Tile border = null
 
     /**
     *   Returns a 2D array of tiles
     */
     Pasture generate() {
-        def pasture = []
+        def pasture = new Pasture(width, height)
         for (int y = 0; y < height; y++) {
-            pasture[y] = []
             for (int x = 0; x < width; x++) {
                 def isBorder = border && ((y == 0 || y == height -1) || (x == 0) || x == width - 1)
-                pasture[y][x] = isBorder ? border : tiles.pick()
+                pasture.setTile(x, y , isBorder ? border : tiles.pick())
             }
         }
-        return pasture as Pasture
+        return pasture
     }
 
     // Factory methods below

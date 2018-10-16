@@ -4,26 +4,26 @@ import graze.pasture.*
 import graze.actors.*
 import graze.actors.imp.*
 
-class Game {
+class Setup {
 
-    def pastureGenerator = new PastureGenerator()
+    PastureGenerator pastureGenerator = new PastureGenerator()
             .width(50)
             .height(50)
             .tiles(WeightedMap.from([(Tile.DIRT): 50, (Tile.GRASS): 50]))
             .border(Tile.FENCE)
 
-    Pasture pasture = null
-    Map<Actor, Attributes> actors = [:]
-
     /**
     * Creates a new pasture and places actors on it
     */
-    void setup() {
+    Pasture newPasture() {
         // Generate map
-        pasture = pastureGenerator.generate()
-        
-        // Create actors
-        actors.clear()
+        return pastureGenerator.generate()
+    }
+
+    Map<Actor, Attributes> newActors(Pasture pasture) {
+        Map<Actor, Attributes> actors = [:]
+
+        // Add actors
         10.times { actors[new RCow()] = new Attributes() }
 
         // Check if there's enough room for the actors
@@ -50,13 +50,15 @@ class Game {
                 }
 
                 // Try again if it's an obstacle
-                if (pasture[x][y].isObstacle) {
+                if (pasture.getTile(x, y).isObstacle) {
                     continue
                 }
 
-                attributes.y = y
                 attributes.x = x
+                attributes.y = y
             }
         }
+
+        return actors
     }
 }

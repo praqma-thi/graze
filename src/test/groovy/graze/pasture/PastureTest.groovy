@@ -1,14 +1,32 @@
 package graze.pasture
 
 import org.junit.Test
+import org.junit.Before
 
 class PastureTest {
-    Pasture pasture = new PastureGenerator()
+    Pasture pasture = null
+    PastureGenerator generator = new PastureGenerator()
         .width(3)
         .height(3)
         .border(Tile.FENCE)
         .tiles(WeightedMap.from([(Tile.DIRT): 1]))
-        .generate()
+
+    @Before
+    void Setup() {
+        pasture = generator.generate()
+    }
+    
+    @Test
+    void setTile_sets() {
+        assert pasture.getTile(0, 1) == Tile.FENCE
+        pasture.setTile(0, 1, Tile.DIRT)
+        assert pasture.getTile(0, 1) == Tile.DIRT
+        assert pasture.surroundingsOf(1, 1) == [
+            [Tile.FENCE, Tile.FENCE, Tile.FENCE],
+            [Tile.DIRT , Tile.DIRT,  Tile.FENCE],
+            [Tile.FENCE, Tile.FENCE, Tile.FENCE],
+        ]
+    }
 
     @Test
     void surroundingsOf_center() {
