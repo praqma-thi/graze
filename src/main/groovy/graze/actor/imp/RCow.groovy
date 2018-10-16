@@ -5,7 +5,11 @@ import graze.actor.*
 class RCow extends Cow {
     def brain = new Random()
 
-    Action takeTurn(def surroundings) {
+    Move move(def surroundings) {
+        return Moves.values(brain.nextInt(Move.values().length))
+    }
+
+    Action act(def surroundings) {
         return Action.values(brain.nextInt(Action.values().length))
     }
 }

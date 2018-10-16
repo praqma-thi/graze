@@ -4,80 +4,80 @@ import graze.actor.*
 import graze.pasture.*
 
 class CowBehaviour {
-    static void act(def cow, Pasture pasture, Action action) {
-        switch(action) {
+    static void move(Cow cow, Pasture pasture, Move moveValue) {
+        println "val: $moveValue"
+        println "cla: ${moveValue.class}"
+        switch(moveValue) {
+            case Move.STAND:
+                stand(cow)
+                break
+            case Move.MOVE_UP:
+                move(cow, pasture.tileOf(cow), pasture.above(cow))
+                break
+            case Move.MOVE_DOWN:
+                move(cow, pasture.tileOf(cow), pasture.below(cow))
+                break
+            case Move.MOVE_LEFT:
+                move(cow, pasture.tileOf(cow), pasture.leftOf(cow))
+                break
+            case Move.MOVE_RIGHT:
+                move(cow, pasture.tileOf(cow), pasture.rightOf(cow))
+                break
+            default:
+                throw new Exception("[${cow.id}:move] Cows can't ${moveValue}.");
+        }
+    }
+
+    static void act(Cow cow, Pasture pasture, Action actionValue) {
+        switch(actionValue) {
             case Action.EAT:
-                eat(cow, pasture)
+                eat(cow, pasture.tileOf(cow))
                 break
             case Action.POOP:
                 poop(cow)
                 break
-            case Action.STAND:
-                stand(cow)
-                break
-            case Action.MOVE_LEFT:
-                move(leftOf(cow), cow, pasture)
-                break
-            case Action.MOVE_RIGHT:
-                move(rightOf(cow), cow, pasture)
-                break
-            case Action.MOVE_UP:
-                move(above(cow), cow, pasture)
-                break
-            case Action.MOVE_DOWN:
-                move(below(cow), cow, pasture)
+            case Action.PASS:
+                pass(cow)
                 break
             default:
-                throw new Exception("Cows can't ${action}.")
+                throw new Exception("[${cow.id}:act] Cows can't ${actionValue}.")
         }
     }
 
-    static void eat(cow, pasture) {
-        def tile = pasture.getTile(cow.value.x, cow.value.y)
-        if (tile != Tile.GRASS) {
-            println "[${cow.key.id}:eat] I can't eat ${tile}!"
+    static void pass(Cow cow) {
+        println "[${cow.id}:poop] The only way to win is not to play."
+    }
+
+    static void eat(Cow cow, Tile tile) {
+        def grass = tile.actors.find { it instanceof Grass }
+        if (!grass) {
+            println "[${cow.id}:eat] No grass. Sad."
             return
         }
 
-        pasture.setTile(cow.value.x, cow.value.y, Tile.DIRT)
-        println "[${cow.key.id}:eat] Delicious!"
-        cow.value.food += 1
-        cow.value.poop += 1
+        tile.actors.remove(grass)
+        println "[${cow.id}:eat] Delicious!"
+        cow.food += 1
+        cow.poop += 1
     }
 
-    static void poop(cow) {
-        println "[${cow.key.id}:poop] Pfffrffrfrrtrt..."
-        cow.value.poop = 0
+    static void poop(Cow cow) {
+        println "[${cow.id}:poop] Pfffrffrfrrtrt..."
+        cow.poop = 0
     }
 
-    static void stand(cow) {
-        println "[${cow.key.id}:stand] I shouldn't be wasting time."
+    static void stand(Cow cow) {
+        println "[${cow.id}:stand] I shouldn't be wasting time."
     }
 
-    static void move(coordinates, cow, pasture) {
-        if (pasture.isOutOfBounds(coordinates.x, coordinates.y)) {
-            println "[${cow.key.id}:move] I don't want to fall off."
+    static void move(Cow cow, Tile from, Tile to) {
+        if(!to) {
+            println "[${cow.id}:move] I don't want to fall off."
             return
         }
 
-        println "[${cow.key.id}:move] Time to hustle."
-        cow.value.x = coordinates.x
-        cow.value.y = coordinates.y
-    }
-
-    static leftOf(cow) {
-        return [x: (cow.value.x - 1), y: cow.value.y]
-    }
-
-    static rightOf(cow) {
-        return [x: (cow.value.x + 1), y: cow.value.y]
-    }
-
-    static above(cow) {
-        return [x: (cow.value.x), y: cow.value.y - 1]
-    }
-
-    static below(cow) {
-        return [x: (cow.value.x), y: cow.value.y + 1]
+        println "[${cow.id}:move] Time to hustle."
+        from.actors.remove(cow)
+        to.actors.add(cow)
     }
 }

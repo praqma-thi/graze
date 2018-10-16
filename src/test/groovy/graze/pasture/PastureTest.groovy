@@ -8,83 +8,77 @@ class PastureTest {
     PastureGenerator generator = new PastureGenerator()
         .width(3)
         .height(3)
-        .border(Tile.FENCE)
-        .tiles(WeightedMap.from([(Tile.DIRT): 1]))
+        .actors(WeightedMap.from([(null): 1]))
 
     @Before
     void Setup() {
         pasture = generator.generate()
     }
+
+    @Test
+    void coordinates_of_returns_correct_coordinates() {
+        def cow = new graze.actor.imp.RCow()
+        pasture.getTile(1, 1).actors.add(cow)
+        def coordinates = pasture.coordinatesOf(cow)
+        assert coordinates.x == 1
+        assert coordinates.y == 1
+    }
     
     @Test
     void setTile_sets() {
-        assert pasture.getTile(0, 1) == Tile.FENCE
-        pasture.setTile(0, 1, Tile.DIRT)
-        assert pasture.getTile(0, 1) == Tile.DIRT
-        assert pasture.surroundingsOf(1, 1) == [
-            [Tile.FENCE, Tile.FENCE, Tile.FENCE],
-            [Tile.DIRT , Tile.DIRT,  Tile.FENCE],
-            [Tile.FENCE, Tile.FENCE, Tile.FENCE],
-        ]
+        def tile = pasture.getTile(0, 1)
+        pasture.setTile(0, 1, null)
+        assert pasture.getTile(0, 1) == null
+        pasture.setTile(0, 1, tile)
+        assert pasture.getTile(0, 1) == tile
     }
 
     @Test
     void surroundingsOf_center() {
-        assert pasture.surroundingsOf(1, 1) == [
-            [Tile.FENCE, Tile.FENCE, Tile.FENCE],
-            [Tile.FENCE, Tile.DIRT,  Tile.FENCE],
-            [Tile.FENCE, Tile.FENCE, Tile.FENCE],
-        ]
+        def surroundings = pasture.surroundingsOf(1, 1)
+        assert surroundings.size() == 3
+        assert surroundings[0].size() == 3
     }
 
     @Test
     void surroundingsOf_bottom_right() {
-        assert pasture.surroundingsOf(2, 2) == [
-            [Tile.DIRT,  Tile.FENCE],
-            [Tile.FENCE, Tile.FENCE],
-        ]
+        def surroundings = pasture.surroundingsOf(2, 2)
+        assert surroundings.size() == 2
+        assert surroundings[0].size() == 2
     }
 
     @Test
     void surroundingsOf_top_left() {
-        assert pasture.surroundingsOf(0, 0) == [
-            [Tile.FENCE, Tile.FENCE],
-            [Tile.FENCE,  Tile.DIRT],
-        ]
+        def surroundings = pasture.surroundingsOf(0, 0)
+        assert surroundings.size() == 2
+        assert surroundings[0].size() == 2
     }
 
     @Test
     void surroundingsOf_right_edge() {
-        assert pasture.surroundingsOf(2, 1) == [
-            [Tile.FENCE, Tile.FENCE],
-            [Tile.DIRT,  Tile.FENCE],
-            [Tile.FENCE, Tile.FENCE],
-        ]
+        def surroundings = pasture.surroundingsOf(2, 1)
+        assert surroundings.size() == 3
+        assert surroundings[0].size() == 2
     }
 
     @Test
     void surroundingsOf_left_edge() {
-        assert pasture.surroundingsOf(0, 1) == [
-            [Tile.FENCE, Tile.FENCE],
-            [Tile.FENCE, Tile.DIRT ],
-            [Tile.FENCE, Tile.FENCE],
-        ]
+        def surroundings = pasture.surroundingsOf(0, 1)
+        assert surroundings.size() == 3
+        assert surroundings[0].size() == 2
     }
 
     @Test
     void surroundingsOf_bottom_edge() {
-
-        assert pasture.surroundingsOf(1, 2) == [
-            [Tile.FENCE, Tile.DIRT,  Tile.FENCE],
-            [Tile.FENCE, Tile.FENCE, Tile.FENCE],
-        ]
+        def surroundings = pasture.surroundingsOf(1, 2)
+        assert surroundings.size() == 2
+        assert surroundings[0].size() == 3
     }
 
     @Test
     void surroundingsOf_top_edge() {
-        assert pasture.surroundingsOf(1, 0) == [
-            [Tile.FENCE, Tile.FENCE, Tile.FENCE],
-            [Tile.FENCE, Tile.DIRT,  Tile.FENCE],
-        ]
+        def surroundings = pasture.surroundingsOf(1, 0)
+        assert surroundings.size() == 2
+        assert surroundings[0].size() == 3
     }
 }

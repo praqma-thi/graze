@@ -1,8 +1,9 @@
 package graze.actor
 
-@groovy.transform.EqualsAndHashCode
-abstract class Cow {
-    String id = UUID.randomUUID().toString()
+abstract class Cow extends Actor {
+    int food = 0
+    int poop = 0
 
-    abstract Action takeTurn(def surroundings)
+    abstract Move move(def surroundings)
+    abstract Action act(def surroundings)
 }

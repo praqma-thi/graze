@@ -1,21 +1,29 @@
 package graze.pasture
 
+import graze.actor.Grass
+
 class PastureGenerator {
 
-    int width = 50
-    int height = 50
-    WeightedMap tiles = WeightedMap.from([(Tile.GRASS): 1])
-    Tile border = null
+    int width = 27
+    int height = 27
+    WeightedMap actors = WeightedMap.from([
+        (Grass.class): 1,
+        (null): 1
+    ])
 
     /**
     *   Returns a 2D array of tiles
     */
     Pasture generate() {
         def pasture = new Pasture(width, height)
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                def isBorder = border && ((y == 0 || y == height -1) || (x == 0) || x == width - 1)
-                pasture.setTile(x, y , isBorder ? border : tiles.pick())
+        width.times { x ->
+            height.times { y ->
+                def tile = pasture.getTile(x, y)
+                def pickedActor = actors.pick()
+                if (pickedActor != null && pickedActor != "null") { // FIXME: why does null end up as a string?
+                    tile.actors.add(pickedActor.newInstance())
+                    return
+                }
             }
         }
         return pasture
@@ -41,18 +49,10 @@ class PastureGenerator {
     
     
     /**
-    *   Sets the pasture of tile densities to use
+    *   Sets the actors to use
     */
-    PastureGenerator tiles(WeightedMap t) {
-        tiles = t
-        return this
-    }
-
-    /**
-    *   Sets the border tile of the pasture
-    */
-    PastureGenerator border(Tile b) {
-        border = b
+    PastureGenerator actors(WeightedMap a) {
+        actors = a
         return this
     }
 }

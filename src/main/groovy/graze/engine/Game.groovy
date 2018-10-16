@@ -6,12 +6,11 @@ import graze.pasture.*
 
 class Game {
     final Pasture pasture
-    final Map<Cow, Attributes> cows
+    final ArrayList<Cow> cows
 
     Game(Setup setup) {
         pasture = setup.newPasture()
         cows = setup.newCows()
+        setup.placeCows(cows, pasture)
     }
-
-
 }

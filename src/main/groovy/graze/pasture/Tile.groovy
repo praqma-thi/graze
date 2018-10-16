@@ -1,13 +1,14 @@
 package graze.pasture
 
-enum Tile {
-    FENCE(true),
-    DIRT(false),
-    GRASS(false)
+import graze.actor.Actor
 
-    final boolean isObstacle
+@groovy.transform.EqualsAndHashCode
+class Tile {
+    final String id = UUID.randomUUID().toString()
+    final ArrayList<Actor> actors = []
 
-    Tile(boolean isObstacle) {
-        this.isObstacle = isObstacle
+    @Override
+    String toString() {
+        return "($id): $actors"
     }
 }

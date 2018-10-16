@@ -1,6 +1,7 @@
 package graze.pasture
 
 import org.junit.Test
+import graze.actor.Action
 
 class WeightedMapTest {
 
@@ -26,10 +27,10 @@ class WeightedMapTest {
     }
 
     @Test
-    void pick_returns_complex_types() {
+    void pick_returns_enums() {
         def map = WeightedMap.from([
-            (Tile.DIRT): 1
+            (Action.PASS): 1
         ])
-        assert map.pick().class == Tile.DIRT.class
+        assert map.pick().class == Action.class
     }
 }
