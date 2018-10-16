@@ -4,7 +4,7 @@ class PastureGenerator {
 
     int width = 50
     int height = 50
-    WeightedMap tiles = WeightedMap.from([(Tile.DIRT): 1])
+    WeightedMap tiles = WeightedMap.from([(Tile.GRASS): 1])
     Tile border = null
 
     /**

@@ -16,6 +16,10 @@ class Pasture extends ArrayList<ArrayList<Tile>> {
         this.subList(fromY, toY).collect{ it.subList(fromX, toX) }
     }
 
+    boolean isOutOfBounds(x, y) {
+        return 0 > x || x >= width || 0 > y || y >= height
+    }
+
     Tile getTile(int x, int y) {
         return this[y][x]
     }

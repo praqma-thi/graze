@@ -1,3 +1,5 @@
+package graze.actor.imp
+
 import graze.actor.*
 
 class RCow extends Cow {
