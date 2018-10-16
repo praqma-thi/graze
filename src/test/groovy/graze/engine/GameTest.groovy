@@ -21,7 +21,7 @@ class GameTest {
     void setup_doesnt_overlap_actors() {
         def g = new Game()
         g.setup()
-        def coordinates = g.actors.collect { [x: it.x, y: it.y] }
+        def coordinates = g.actors.attributes.collect { [x: it.x, y: it.y] }
         coordinates.each { my ->
             assert coordinates.grep { their ->
                 their.x == my.x && their.y == my.y 
@@ -35,8 +35,8 @@ class GameTest {
         g.setup()
         g.pastureGenerator.width = 7
         g.pastureGenerator.height = 4
-        g.actors.each { actor ->
-            assert !g.pasture[actor.x][actor.y].isObstacle
+        g.actors.each { actor, attributes ->
+            assert !g.pasture[attributes.x][attributes.y].isObstacle
         }
     }
 

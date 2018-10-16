@@ -13,7 +13,7 @@ class Game {
             .border(Tile.FENCE)
 
     Pasture pasture = null
-    List<Actor> actors = []
+    Map<Actor, Attributes> actors = [:]
 
     /**
     * Creates a new pasture and places actors on it
@@ -24,7 +24,7 @@ class Game {
         
         // Create actors
         actors.clear()
-        10.times { actors += new RCow() }
+        10.times { actors[new RCow()] = new Attributes() }
 
         // Check if there's enough room for the actors
         def tileCount = pasture.flatten().grep { !it.isObstacle }.size()
@@ -38,14 +38,14 @@ class Game {
 
         // Place actors
         def random = new Random()
-        actors.each { actor ->
-            while (actor.x == -1  || actor.y == -1) {
+        actors.each { actor, attributes ->
+            while (attributes.x == -1  || attributes.y == -1) {
                 // Pick some coordinates
                 def x = random.nextInt(pasture.width)
                 def y = random.nextInt(pasture.height)
 
                 // Try again if there's already someone there
-                if (actors.any { it.x == x && it.y == y }) {
+                if (actors.attributes.any { it.x == x && it.y == y }) {
                     continue
                 }
 
@@ -54,8 +54,8 @@ class Game {
                     continue
                 }
 
-                actor.y = y
-                actor.x = x
+                attributes.y = y
+                attributes.x = x
             }
         }
     }
