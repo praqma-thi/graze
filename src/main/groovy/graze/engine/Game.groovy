@@ -12,32 +12,40 @@ class Game {
         pasture = setup.newPasture()
         cows = setup.newCows()
         setup.placeCows(cows, pasture)
+        Canvas.instance.pasture = pasture
     }
 
     void run() {
-        def i = 0
-        while (i < 5) {
-            println "Dawn of day $i"
-            i++ // just run five turns for now
-            playTurn()
+        def dayCount = 0
+        def gameOver = false
+        while (!gameOver) {        
+            dayCount++
+            Canvas.instance.title "Dawn of day $dayCount"
+            doTurn()
 
-            def survivingCows = pasture.allCows().collect { it.class }.unique()
-            switch (survivingCows.size()) {
-                case 0:
-                    println "Wow. They all died. Stalemate?"
-                    System.exit(0)
-                    break
-                case 1:
-                    println "Winner winner chicken dinner!"
-                    println "<<< ${survivingCows.first().name} >>>"
-                    System.exit(1)
-                    break
-            }
-            System.sleep(2)
+            // gameOver = endGame()
+            gameOver = dayCount > 364
+
+            Canvas.instance.paint()
         }
     }
 
-    void playTurn() {
+    boolean endGame() {
+        def survivingCows = pasture.allCowClasses().sort { it.id }
+        switch (survivingCows.size()) {
+            case 0:
+                Canvas.instance.message "Wow. They all died. Stalemate?"
+                return true
+            case 1:
+                Canvas.instance.message "Winner winner chicken dinner!"
+                Canvas.instance.message "<<< ${survivingCows.first()} >>>"
+                return true
+            default:
+                return false
+        }
+    }
+
+    void doTurn() {
         def allCows = pasture.allCows()
         allCows.each { cow ->
             CowBehaviour.move(cow, pasture, cow.move(pasture.surroundingsOf(cow)))

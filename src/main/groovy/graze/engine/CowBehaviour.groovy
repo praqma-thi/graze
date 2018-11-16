@@ -2,6 +2,7 @@ package graze.engine
 
 import graze.actor.*
 import graze.pasture.*
+import graze.engine.Canvas
 
 class CowBehaviour {
     static void move(Cow cow, Pasture pasture, Move moveValue) {
@@ -43,43 +44,43 @@ class CowBehaviour {
     }
 
     static void pass(Cow cow) {
-        println "[${cow.tag} pass] The only way to win is not to play."
+        Canvas.instance.log "[${cow.tag} pass] The only way to win is not to play."
     }
 
     static void eat(Cow cow, Tile tile) {
         def grass = tile.actors.find { it instanceof Grass }
         if (!grass) {
-            println "[${cow.tag} eat] No grass. Sad."
+            Canvas.instance.log "[${cow.tag} eat] No grass. Sad."
             return
         }
 
         tile.actors.remove(grass)
-        println "[${cow.tag} eat] Delicious!"
+        Canvas.instance.log "[${cow.tag} eat] Delicious!"
         cow.food += 1
         cow.poop += 1
     }
 
     static void poop(Cow cow) {
         if (cow.poop < 1) {
-            println "[${cow.tag} poop] *toot*"
+            Canvas.instance.log "[${cow.tag} poop] *toot*"
             return
         }
 
-        println "[${cow.tag} poop] Pffrttt..."
+        Canvas.instance.log "[${cow.tag} poop] Pffrttt..."
         cow.poop = 0
     }
 
     static void stand(Cow cow) {
-        println "[${cow.tag} stand] Biding my time."
+        Canvas.instance.log "[${cow.tag} stand] Biding my time."
     }
 
     static void move(Cow cow, Tile from, Tile to) {
         if(!to) {
-            println "[${cow.tag} move] I don't want to fall off."
+            Canvas.instance.log "[${cow.tag} move] I don't want to fall off."
             return
         }
 
-        println "[${cow.tag} move] Time to hustle."
+        Canvas.instance.log "[${cow.tag} move] Time to hustle."
         from.actors.remove(cow)
         to.actors.add(cow)
     }

@@ -5,6 +5,10 @@ import graze.actor.*
 class RCow extends Cow {
     def brain = new Random()
 
+    String getIcon() {
+        return 'R'
+    }
+
     Move move(def surroundings) {
         return Move.values()[brain.nextInt(Move.values().length)]
     }

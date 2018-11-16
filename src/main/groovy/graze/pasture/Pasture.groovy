@@ -17,6 +17,10 @@ class Pasture extends ArrayList<ArrayList<Tile>> {
         return this.flatten().collectMany { it.actors }.grep { it instanceof Cow }
     }
 
+    def allCowClasses() {
+        return this.allCows().collect { it.class }.unique()
+    }
+
     def surroundingsOf(int x, int y) {
         def fromX = x - 1 < 0 ? 0  : x - 1
         def fromY = y - 1 < 0 ? 0  : y - 1
