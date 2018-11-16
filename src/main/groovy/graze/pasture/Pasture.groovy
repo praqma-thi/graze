@@ -1,6 +1,6 @@
 package graze.pasture
 
-import graze.actor.Actor
+import graze.actor.*
 
 class Pasture extends ArrayList<ArrayList<Tile>> {
     Pasture(int width, int height) {
@@ -11,6 +11,10 @@ class Pasture extends ArrayList<ArrayList<Tile>> {
                 this[y][x] = new Tile()
             }
         }
+    }
+
+    def allCows() {
+        return this.flatten().collectMany { it.actors }.grep { it instanceof Cow }
     }
 
     def surroundingsOf(int x, int y) {

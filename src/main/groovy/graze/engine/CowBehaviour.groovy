@@ -5,8 +5,6 @@ import graze.pasture.*
 
 class CowBehaviour {
     static void move(Cow cow, Pasture pasture, Move moveValue) {
-        println "val: $moveValue"
-        println "cla: ${moveValue.class}"
         switch(moveValue) {
             case Move.STAND:
                 stand(cow)
@@ -24,7 +22,7 @@ class CowBehaviour {
                 move(cow, pasture.tileOf(cow), pasture.rightOf(cow))
                 break
             default:
-                throw new Exception("[${cow.id}:move] Cows can't ${moveValue}.");
+                throw new Exception("[${cow.tag} move] Cows can't ${moveValue}.");
         }
     }
 
@@ -40,43 +38,48 @@ class CowBehaviour {
                 pass(cow)
                 break
             default:
-                throw new Exception("[${cow.id}:act] Cows can't ${actionValue}.")
+                throw new Exception("[${cow.tag} act] Cows can't ${actionValue}.")
         }
     }
 
     static void pass(Cow cow) {
-        println "[${cow.id}:poop] The only way to win is not to play."
+        println "[${cow.tag} pass] The only way to win is not to play."
     }
 
     static void eat(Cow cow, Tile tile) {
         def grass = tile.actors.find { it instanceof Grass }
         if (!grass) {
-            println "[${cow.id}:eat] No grass. Sad."
+            println "[${cow.tag} eat] No grass. Sad."
             return
         }
 
         tile.actors.remove(grass)
-        println "[${cow.id}:eat] Delicious!"
+        println "[${cow.tag} eat] Delicious!"
         cow.food += 1
         cow.poop += 1
     }
 
     static void poop(Cow cow) {
-        println "[${cow.id}:poop] Pfffrffrfrrtrt..."
+        if (cow.poop < 1) {
+            println "[${cow.tag} poop] *toot*"
+            return
+        }
+
+        println "[${cow.tag} poop] Pffrttt..."
         cow.poop = 0
     }
 
     static void stand(Cow cow) {
-        println "[${cow.id}:stand] I shouldn't be wasting time."
+        println "[${cow.tag} stand] Biding my time."
     }
 
     static void move(Cow cow, Tile from, Tile to) {
         if(!to) {
-            println "[${cow.id}:move] I don't want to fall off."
+            println "[${cow.tag} move] I don't want to fall off."
             return
         }
 
-        println "[${cow.id}:move] Time to hustle."
+        println "[${cow.tag} move] Time to hustle."
         from.actors.remove(cow)
         to.actors.add(cow)
     }
