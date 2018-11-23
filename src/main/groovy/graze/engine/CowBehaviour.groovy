@@ -84,4 +84,12 @@ class CowBehaviour {
         from.actors.remove(cow)
         to.actors.add(cow)
     }
+
+    static void getHungry(Cow cow, Pasture pasture) {
+        cow.food--
+        if (cow.food >= 0) { return }
+
+        Canvas.instance.log "[${cow.tag} exit] I'm out!"
+        pasture.tileOf(cow).actors.remove(cow)
+    }
 }

@@ -17,7 +17,8 @@ class Setup {
 
     ArrayList<Cow> newCows() {
         def cows = []
-        10.times { cows += new RCow() }
+        5.times { cows += new RCow() }
+        5.times { cows += new SmartCow() }
         return cows
     }
     

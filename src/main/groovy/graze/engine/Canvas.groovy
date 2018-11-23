@@ -36,7 +36,7 @@ class Canvas {
                     output += ' '
                     return
                 } else {
-                    output += tile.actors.last().getIcon()[0]
+                    output += tile.actors.last().getIcon()
                 }
             }
             output += ' |\n'
@@ -52,8 +52,10 @@ class Canvas {
         output += drawPasture()
         output += "${'=' * 20}\n"
         messages.each { output += "${it}\n" }
-        output += "${'=' * 20}\n"
-        // log.each { output += "${it}\n" }
+        if (false) {
+            output += "${'=' * 20}\n"
+            log.each { output += "${it}\n" }
+        }
 
         // Clear the console and paint
         System.out.print("\033[H\033[2J");

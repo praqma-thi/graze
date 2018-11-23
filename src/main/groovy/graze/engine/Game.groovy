@@ -21,17 +21,16 @@ class Game {
         while (!gameOver) {        
             dayCount++
             Canvas.instance.title "Dawn of day $dayCount"
-            doTurn()
+            doTurn(dayCount)
 
-            // gameOver = endGame()
-            gameOver = dayCount > 364
+            gameOver = endGame()
 
             Canvas.instance.paint()
         }
     }
 
     boolean endGame() {
-        def survivingCows = pasture.allCowClasses().sort { it.id }
+        def survivingCows = pasture.allCowClasses()
         switch (survivingCows.size()) {
             case 0:
                 Canvas.instance.message "Wow. They all died. Stalemate?"
@@ -45,13 +44,10 @@ class Game {
         }
     }
 
-    void doTurn() {
+    void doTurn(int turnCount) {
         def allCows = pasture.allCows()
-        allCows.each { cow ->
-            CowBehaviour.move(cow, pasture, cow.move(pasture.surroundingsOf(cow)))
-        }
-        allCows.each { cow ->
-            CowBehaviour.act(cow, pasture, cow.act(pasture.surroundingsOf(cow)))
-        }
+        allCows.each { cow -> CowBehaviour.move(cow, pasture, cow.move(pasture.surroundingsOf(cow))) }
+        allCows.each { cow -> CowBehaviour.act(cow, pasture, cow.act(pasture.surroundingsOf(cow))) }
+        if (turnCount % 3 == 0) { allCows.each { cow -> CowBehaviour.getHungry(cow, pasture) } }
     }
 }

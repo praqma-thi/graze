@@ -2,11 +2,11 @@ package graze.actor.imp
 
 import graze.actor.*
 
-class RCow extends Cow {
+class SmartCow extends Cow {
     Random brain = new Random()
 
     String getIcon() {
-        return 'R'
+        return 'S'
     }
 
     Move move(def surroundings) {
@@ -14,6 +14,8 @@ class RCow extends Cow {
     }
 
     Action act(def surroundings) {
-        return Action.values()[brain.nextInt(Action.values().length)]
+        if (surroundings[1][1].actors.any { it instanceof Grass })
+            return Action.EAT
+        return Action.POOP
     }
 }

@@ -1,8 +1,10 @@
 package graze.actor
 
+import graze.engine.Color
+
 class Grass extends Actor {
     String getIcon() {
-        return '.'
+        return Color.green('.')
     }
 
     Move move(def surroundings) {
