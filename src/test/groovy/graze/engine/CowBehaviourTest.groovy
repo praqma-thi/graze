@@ -33,6 +33,8 @@ class CowBehaviourTest {
     void cow_eats_grass() {
         pasture.getTile(2, 2).actors.add(new Grass())
         cows.each { cow ->
+            cow.food = 0
+            cow.poop = 0
             CowBehaviour.act(cow, pasture, Action.EAT)
             assert cow.food == 1
             assert cow.poop == 1
@@ -43,6 +45,8 @@ class CowBehaviourTest {
     @Test
     void cow_doesnt_eat_without_grass() {
         cows.each { cow ->
+            cow.food = 0
+            cow.poop = 0
             CowBehaviour.act(cow, pasture, Action.EAT)
             assert cow.food == 0
             assert cow.poop == 0
