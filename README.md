@@ -1,16 +1,27 @@
 # Graze
 
-This repository contains nothing of value (for now)
+Welcome to Graze, the king of the hill game that's simply bovine.
 
-## Future description
+## Game description
 
-Graze is a simple programming game where you can contribute a Cow and see how it fares in the pastures.
+In the pastures of Graze, various types of cows compete for precious patches of grass.
+Cows that go without grass for too long will go hungry and return to their home planet.
+The last type of cow standing wins!
 
-Cows are set loose on a grid with some grass.
-They can move around, eat, or poop.
-Eventually, cows will go hungry and ~~die~~ return to their home planet.
-Last (kind of) cow standing wins.
+## Adding a cow
 
-## Rules
+Create a new class under `graze.actor.imp` that extends the `Cow` class and implements `getIcon`, `move` and `act`.
 
-A work in progress.
+## Building Graze
+
+Graze makes use of Gradle for all of its build steps.
+You don't need to install Gradle to run the build steps, simply calling the Gradle Wrapper will do.
+
+Run `./gradlew build` to build Graze, run the tests and drop test and coverage results in the `build/` dir.
+
+Run `./gradle installDist` to drop Graze executables in the `build/` dir.
+
+## Running Graze
+
+Simple execute the Graze executable to run a session of Graze with the default settings.
+To execute the game with custom configuration, _hold on to your horses, I'm working on it_.
