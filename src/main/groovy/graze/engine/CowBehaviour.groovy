@@ -54,6 +54,11 @@ class CowBehaviour {
             return
         }
 
+        if (tile.actors.grep { it instanceof Cow }.size() > 1) {
+            Canvas.instance.log "[${cow.tag} eat] I can't eat while there's someone looking."
+            return
+        }
+
         tile.actors.remove(grass)
         Canvas.instance.log "[${cow.tag} eat] Delicious!"
         cow.food += 1

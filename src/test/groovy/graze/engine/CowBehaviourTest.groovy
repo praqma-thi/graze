@@ -43,6 +43,20 @@ class CowBehaviourTest {
     }
 
     @Test
+    void cow_doesnt_eat_grass_when_sharing_tile_with_other_cows() {
+        pasture.getTile(2, 2).actors.add(new Grass())
+        pasture.getTile(2, 2).actors.add(new RCow())
+        cows.each { cow ->
+            cow.food = 0
+            cow.poop = 0
+            CowBehaviour.act(cow, pasture, Action.EAT)
+            assert cow.food == 0
+            assert cow.poop == 0
+            assert pasture.getTile(2, 2).actors.any { it instanceof Grass }
+        }
+    }
+
+    @Test
     void cow_doesnt_eat_without_grass() {
         cows.each { cow ->
             cow.food = 0
