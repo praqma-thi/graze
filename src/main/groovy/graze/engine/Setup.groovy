@@ -6,22 +6,30 @@ import graze.actor.imp.*
 
 class Setup {
 
-    PastureGenerator pastureGenerator = new PastureGenerator()
+    Config config
+    
+    Setup(Config config) {
+        this.config = config
+    }
 
-    /**
-    * Creates a new pasture and places cows on it
-    */
     Pasture newPasture() {
-        return pastureGenerator.generate()
+        new PastureGenerator()
+            .width(config["pasture.width"])
+            .height(config["pasture.height"])
+            .generate()
     }
 
     ArrayList<Cow> newCows() {
-        def cows = []
-        5.times { cows += new RCow() }
-        5.times { cows += new SmartCow() }
-        return cows
+        config["cows"].collectMany { className, count ->
+            def cows = []
+            count.times { 
+                def cow = Class.forName(className).newInstance()
+                cows.add(cow)
+            }
+            return cows
+        }
     }
-    
+
     void placeCows(ArrayList cows, Pasture pasture) {
         def random = new Random()
         cows.each { cow ->

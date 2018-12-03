@@ -5,13 +5,18 @@ import graze.pasture.*
 import graze.actor.*
 
 class Game {
+    final Config config
     final Pasture pasture
     final ArrayList<Cow> cows
 
-    Game(Setup setup) {
+    Game(Config config) {
+        this.config = config
+
+        Setup setup = new Setup(config)
         pasture = setup.newPasture()
         cows = setup.newCows()
         setup.placeCows(cows, pasture)
+
         Canvas.instance.pasture = pasture
     }
 
@@ -20,12 +25,15 @@ class Game {
         def gameOver = false
         while (!gameOver) {        
             dayCount++
-            Canvas.instance.title "Dawn of day $dayCount"
             doTurn(dayCount)
-
             gameOver = endGame()
 
-            Canvas.instance.paint()
+            if (config["canvas.enabled"]) {
+                Canvas.instance.title "Dawn of day $dayCount"
+                Canvas.instance.paint()
+            }
+
+            System.sleep(config["loop.sleep"])
         }
     }
 

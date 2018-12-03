@@ -14,10 +14,8 @@ class Main {
             }
         }
 
-        System.sleep(1000)
-        def config = configFile ? new Config() : new Config(configFile)
-        def setup = new Setup()
-        def game = new Game(setup)
+        Config config = configFile ? new Config() : new Config(configFile)
+        Game game = new Game(config)
         game.run()
     }
 }
