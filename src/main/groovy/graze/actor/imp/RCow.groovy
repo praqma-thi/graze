@@ -1,6 +1,7 @@
 package graze.actor.imp
 
 import graze.actor.*
+import graze.pasture.Pasture
 
 class RCow extends Cow {
     Random brain = new Random()
@@ -9,11 +10,11 @@ class RCow extends Cow {
         return 'R'
     }
 
-    Move move(def surroundings) {
+    Move move(Pasture surroundings) {
         return Move.values()[brain.nextInt(Move.values().length)]
     }
 
-    Action act(def surroundings) {
+    Action act(Pasture surroundings) {
         return Action.values()[brain.nextInt(Action.values().length)]
     }
 }

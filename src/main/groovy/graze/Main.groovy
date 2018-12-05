@@ -14,7 +14,7 @@ class Main {
             }
         }
 
-        Config config = configFile ? new Config() : new Config(configFile)
+        Config config = configFile ? new Config(configFile) : new Config()
         Game game = new Game(config)
         game.run()
     }

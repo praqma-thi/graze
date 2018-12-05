@@ -39,16 +39,20 @@ class Game {
 
     boolean endGame() {
         def survivingCows = pasture.allCowClasses()
-        switch (survivingCows.size()) {
-            case 0:
-                Canvas.instance.message "Wow. They all died. Stalemate?"
-                return true
-            case 1:
-                Canvas.instance.message "Winner winner chicken dinner!"
-                Canvas.instance.message "<<< ${survivingCows.first()} >>>"
-                return true
-            default:
-                return false
+        if (config["loop.king"]) {
+            switch (survivingCows.size()) {
+                case 0:
+                    Canvas.instance.message "Wow. They all died. Stalemate?"
+                    return true
+                case 1:
+                    Canvas.instance.message "Winner winner chicken dinner!"
+                    Canvas.instance.message "<<< ${survivingCows.first()} >>>"
+                    return true
+                default:
+                    return false
+            }
+        } else {
+            return survivingCows.size() == 0
         }
     }
 

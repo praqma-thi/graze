@@ -50,8 +50,10 @@ class Canvas {
         titles.each { output += "${it}\n" }
         output += "${'=' * 20}\n"
         output += drawPasture()
-        output += "${'=' * 20}\n"
-        messages.each { output += "${it}\n" }
+        if (messages) {
+            output += "${'=' * 20}\n"
+            messages.each { output += "${it}\n" }
+        }
         if (false) {
             output += "${'=' * 20}\n"
             log.each { output += "${it}\n" }

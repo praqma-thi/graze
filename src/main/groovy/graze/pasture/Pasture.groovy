@@ -13,24 +13,34 @@ class Pasture extends ArrayList<ArrayList<Tile>> {
         }
     }
 
-    def allCows() {
+    Pasture(ArrayList<ArrayList<Tile>> pasture) {
+        super(pasture.size())
+        pasture.eachWithIndex { row, y ->
+            this[y] = new ArrayList<Tile>(row.size)
+            row.eachWithIndex { tile, x ->
+                this[y][x] = tile   
+            }
+        }
+    }
+
+    ArrayList<Cow> allCows() {
         return this.flatten().collectMany { it.actors }.grep { it instanceof Cow }
     }
 
-    def allCowClasses() {
+    ArrayList<Class> allCowClasses() {
         return this.allCows().collect { it.class }.unique()
     }
 
-    def surroundingsOf(int x, int y) {
-        def fromX = x - 1 < 0 ? 0  : x - 1
-        def fromY = y - 1 < 0 ? 0  : y - 1
-        def toX =   x + 1 >= width ? width : x + 2
-        def toY =   y + 1 >= height ? height : y + 2
+    Pasture surroundingsOf(int x, int y) {
+        int fromX = x - 1 < 0 ? 0  : x - 1
+        int fromY = y - 1 < 0 ? 0  : y - 1
+        int toX =   x + 1 >= width ? width : x + 2
+        int toY =   y + 1 >= height ? height : y + 2
         this.subList(fromY, toY).collect{ it.subList(fromX, toX) }
     }
 
-    def surroundingsOf(Actor actor) {
-        def c = coordinatesOf(actor)
+    Pasture surroundingsOf(Actor actor) {
+        Coordinates c = coordinatesOf(actor)
         return surroundingsOf(c.x, c.y)
     }
 
