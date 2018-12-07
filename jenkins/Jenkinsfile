@@ -1,0 +1,24 @@
+pipeline {
+    agent {
+        label 'docker'
+    }
+
+    stages {
+        stage ('build') {
+            steps {
+                sh './gradlew build'
+            }
+        }
+
+        stage ('installDist') {
+            steps {
+                sh './gradlew iD'
+            }
+        }
+
+        stage ('simulate') {
+            sh 'jenkins/test.sh'
+            archive 'jenkins/results.csv'
+        }
+    }
+}

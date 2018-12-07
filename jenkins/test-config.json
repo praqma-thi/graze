@@ -1,0 +1,11 @@
+{
+    "canvas.enabled": "false",
+    "loop.king": "true",
+    "loop.sleep": "O",
+    "pasture.height": 30,
+    "pasture.width": 30,
+    "cows": {
+        "graze.actor.imp.RCow": 10,
+        "graze.actor.imp.SmartCow": 10
+    }
+}
