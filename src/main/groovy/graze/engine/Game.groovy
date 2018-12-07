@@ -23,7 +23,7 @@ class Game {
     void run() {
         def dayCount = 0
         def gameOver = false
-        while (!gameOver) {        
+        while (!gameOver) {
             dayCount++
             doTurn(dayCount)
             gameOver = endGame()
@@ -33,7 +33,18 @@ class Game {
                 Canvas.instance.paint()
             }
 
-            System.sleep(config["loop.sleep"])
+            if (!gameOver) {
+                System.sleep(config["loop.sleep"])
+                continue
+            }
+
+            if (!config["canvas.enabled"]) {
+                if (config["loop.king"]) {
+                    println pasture.allCowClasses().first() ?: 'stalemate'
+                } else {
+                    println dayCount
+                }
+            }
         }
     }
 
