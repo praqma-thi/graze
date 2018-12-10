@@ -16,7 +16,7 @@ pipeline {
             }
         }
 
-        stage ('simulate') {
+        stage ('contest') {
             steps {
                 script {
                     // Run the game 1000 times and store the results
