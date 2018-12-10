@@ -41,7 +41,7 @@ class Canvas {
             }
             output += ' |\n'
         }
-        output += ("*-${"--" * pasture[0].size()}-*\n")
+        output += ("*-${"--" * pasture[0].size()}*\n")
         return output
     }
 
