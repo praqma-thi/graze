@@ -8,13 +8,14 @@ import graze.pasture.Pasture
 */
 
 class SoCow extends Cow {
+    Random brain = new Random()
 
     String getIcon() {
         return 'B'
     }
 
     Move move(Pasture surroundings) {
-        return Move.values()[new Random(13).nextInt(Move.values().length)]
+        return Move.values()[brain.nextInt(Move.values().length)]
     }
 
     Action act(Pasture surroundings) {

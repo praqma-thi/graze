@@ -38,7 +38,7 @@ class Game {
                 continue
             }
 
-            if (config["canvas.enabled"]) {
+            if (!config["canvas.enabled"]) {
                 if (config["loop.king"]) {
                     println pasture.allCowClasses()[0] ?: 'stalemate'
                 } else {

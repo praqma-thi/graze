@@ -24,7 +24,6 @@ pipeline {
                     100.times {
                         def winner = sh(script: "build/install/graze/bin/graze jenkins/test-config.json", returnStdout: true)
                         results[winner] = (results[winner] ?: 0) + 1
-
                         results.each { println "${it.key}: ${it.value}"}
                     }
 
