@@ -28,18 +28,18 @@ class Game {
             doTurn(dayCount)
             gameOver = endGame()
 
-            if (config["canvas.enabled"] == "true") {
+            if (config["canvas.enabled"]) {
                 Canvas.instance.title "Dawn of day $dayCount"
                 Canvas.instance.paint()
             }
 
             if (!gameOver) {
-                System.sleep(((int) config["loop.sleep"]))
+                System.sleep(config["loop.sleep"])
                 continue
             }
 
-            if (config["canvas.enabled"] != "true") {
-                if (config["loop.king"] == "true") {
+            if (config["canvas.enabled"]) {
+                if (config["loop.king"]) {
                     println pasture.allCowClasses()[0] ?: 'stalemate'
                 } else {
                     println dayCount
@@ -50,7 +50,7 @@ class Game {
 
     boolean endGame() {
         def survivingCows = pasture.allCowClasses()
-        if (config["loop.king"] == "true") {
+        if (config["loop.king"]) {
             switch (survivingCows.size()) {
                 case 0:
                     Canvas.instance.message "Wow. They all died. Stalemate?"

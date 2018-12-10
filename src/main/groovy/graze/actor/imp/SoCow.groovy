@@ -3,6 +3,10 @@ package graze.actor.imp
 import graze.actor.*
 import graze.pasture.Pasture
 
+/**
+* author: Beatrice Pendleton
+*/
+
 class SoCow extends Cow {
 
     String getIcon() {
@@ -10,10 +14,10 @@ class SoCow extends Cow {
     }
 
     Move move(Pasture surroundings) {
-        return Move.STAND
+        return Move.values()[new Random(13).nextInt(Move.values().length)]
     }
 
     Action act(Pasture surroundings) {
-        return Action.PASS
+        return Action.EAT
     }
 }
