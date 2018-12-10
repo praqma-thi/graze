@@ -12,13 +12,14 @@ pipeline {
 
         stage ('installDist') {
             steps {
-                sh './gradlew iD'
+                sh './gradlew installDist'
             }
         }
 
         stage ('simulate') {
-            sh 'jenkins/test.sh'
-            archive 'jenkins/results.csv'
+            steps {
+                sh 'echo run tests here'
+            }
         }
     }
 }
