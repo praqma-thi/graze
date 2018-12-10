@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage ('build') {
             steps {
-                sh './gradlew build'
+                sh './gradlew clean build'
             }
         }
 
@@ -18,7 +18,25 @@ pipeline {
 
         stage ('simulate') {
             steps {
-                sh 'echo run tests here'
+                script {
+                    // Run the game 1000 times and store the results
+                    def results = [:]
+                    100.times {
+                        def winner = sh(script: "build/install/graze/bin/graze jenkins/test-config.json", returnStdout: true)
+                        results[winner] = (results[winner] ?: 0) + 1
+
+                        results.each { println "${it.key}: ${it.value}"}
+                    }
+
+                    // Format the results to a CSV
+                    def resultText = "winner,count\n"
+                    results.each { resultText += "${it.key},${it.value}\n" }
+
+                    // Write the formatted text to a file
+                    writeFile file: 'jenkins/results.csv', text: resultText
+                }
+
+                archiveArtifacts 'jenkins/results.csv'
             }
         }
     }
