@@ -7,7 +7,7 @@ import graze.pasture.Pasture
 * author: Beatrice Pendleton
 */
 
-class SoCow extends Cow {
+class TtogttoghanCow extends Cow {
     Random brain = new Random()
 
     String getIcon() {
