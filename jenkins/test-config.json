@@ -6,7 +6,7 @@
     "pasture.width": 30,
     "cows": {
         "graze.actor.imp.RCow": 3,
-        "graze.actor.imp.SoCow": 3,
+        "graze.actor.imp.TtogttoghanCow": 3,
         "graze.actor.imp.SmartCow": 3
     }
 }

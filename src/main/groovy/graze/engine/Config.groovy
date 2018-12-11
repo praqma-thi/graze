@@ -8,9 +8,8 @@ class Config extends HashMap<String, Object> {
         this."pasture.height" = 30
         this."pasture.width" = 30
         this."cows" = [
-            "graze.actor.imp.RCow": 10,
-            "graze.actor.imp.SoCow": 10,
-            "graze.actor.imp.SmartCow": 0,
+            "graze.actor.imp.RCow": 5,
+            "graze.actor.imp.SmartCow": 5,
         ]
     }
 

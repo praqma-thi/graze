@@ -1,7 +1,7 @@
 build/
 .gradle/
 bin/
-test/
+local-test/
 .settings
 .classpath
 .project

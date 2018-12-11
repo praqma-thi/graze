@@ -4,6 +4,27 @@ pipeline {
     }
 
     stages {
+        stage('checkout') {
+           steps {
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[ name: '*/ready/**' ]],
+                    extensions: [
+                        [$class: 'CleanBeforeCheckout'],
+                        pretestedIntegration(
+                            gitIntegrationStrategy: accumulated(),
+                            integrationBranch: 'master',
+                            repoName: 'origin'
+                        )
+                    ],
+                    userRemoteConfigs: [[
+                        credentialsId: 'praqma-thi',
+                        url: 'git@github.com:praqma-thi/graze.git'
+                    ]]
+                ])
+            }
+        }
+
         stage ('build') {
             steps {
                 sh './gradlew clean build'
@@ -16,10 +37,16 @@ pipeline {
             }
         }
 
+        stage('publish') {
+           steps {
+               pretestedIntegrationPublisher()
+            }
+        }
+
         stage ('contest') {
             steps {
                 script {
-                    // Run the game 1000 times and store the results
+                    // Run the game 100 times and store the results
                     def results = [:]
                     100.times {
                         def winner = sh(script: "build/install/graze/bin/graze jenkins/test-config.json", returnStdout: true)
