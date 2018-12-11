@@ -15,7 +15,14 @@ class TtogttoghanCow extends Cow {
     }
 
     Move move(Pasture surroundings) {
-        return Move.values()[brain.nextInt(Move.values().length)]
+        def movelist = [
+            Move.MOVE_UP,
+            Move.MOVE_DOWN,
+            Move.MOVE_LEFT,
+            Move.MOVE_RIGHT,
+        ]
+        def chosen = brain.nextInt(movelist.size())
+        return movelist[chosen]
     }
 
     Action act(Pasture surroundings) {
