@@ -4,7 +4,7 @@ pipeline {
     }
 
     stages {
-        stage('checkout') {
+        stage('pre-tested integration') {
            steps {
                 checkout([
                     $class: 'GitSCM',
@@ -37,7 +37,7 @@ pipeline {
             }
         }
 
-        stage('publish') {
+        stage('pre-tested publish') {
            steps {
                pretestedIntegrationPublisher()
             }
