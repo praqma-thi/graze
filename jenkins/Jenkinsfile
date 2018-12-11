@@ -50,13 +50,16 @@ pipeline {
                     def results = [:]
                     100.times {
                         def winner = sh(script: "build/install/graze/bin/graze jenkins/test-config.json", returnStdout: true)
+                        winner = winner.trim()
                         results[winner] = (results[winner] ?: 0) + 1
                         results.each { println "${it.key}: ${it.value}"}
                     }
 
                     // Format the results to a CSV
-                    def resultText = "winner,count\n"
-                    results.each { resultText += "${it.key},${it.value}\n" }
+                    def resultText = "winner,wins\n"
+                    results.each { winner, wins ->
+                        resultText += "${winner},${wins}\n"
+                    }
 
                     // Write the formatted text to a file
                     writeFile file: 'jenkins/results.csv', text: resultText
