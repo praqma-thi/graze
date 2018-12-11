@@ -24,7 +24,6 @@ class TtogttoghanCowTest {
         assert action == Action.EAT
     }
 
-    /*
     @Test
     void never_stands_still() {
         def pasture = getTestPasture()
@@ -35,5 +34,4 @@ class TtogttoghanCowTest {
             assert cow.move(pasture.surroundingsOf(cow)) != Move.STAND
         }
     }
-    */
 }
