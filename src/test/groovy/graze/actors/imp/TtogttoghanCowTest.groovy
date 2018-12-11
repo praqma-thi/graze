@@ -55,6 +55,18 @@ class TtogttoghanCowTest {
     }
 
     @Test
+    void moves_to_grass() {
+        def pasture = getTestPasture(3, 3)
+        def cow = new TtogttoghanCow()
+        pasture[1][1].actors.add(cow)
+        pasture[1][0].actors.add(new Grass())
+
+        50.times {
+            assert cow.move(pasture.surroundingsOf(cow)) == Move.MOVE_LEFT
+        }
+    }
+
+    @Test
     void removes_void_moves() {
         def pasture = getTestPasture(1, 2)
         def cow = new TtogttoghanCow()
