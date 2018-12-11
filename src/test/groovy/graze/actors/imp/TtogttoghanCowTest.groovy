@@ -6,11 +6,19 @@ import graze.actor.*
 
 class TtogttoghanCowTest {
     Pasture getTestPasture() {
-        return [
-            [new Tile(), new Tile(), new Tile()],
-            [new Tile(), new Tile(), new Tile()],
-            [new Tile(), new Tile(), new Tile()],
-        ] as Pasture
+        return getTestPasture(3, 3)
+    }
+
+    Pasture getTestPasture(int rows, int columns) {
+        Pasture pasture = [] as Pasture
+        rows.times {
+            def row = []
+            columns.times {
+                row.add(new Tile())
+            }
+            pasture.add(row)
+        }
+        return pasture
     }
 
     @Test
@@ -33,6 +41,29 @@ class TtogttoghanCowTest {
         50.times {
             assert cow.move(pasture.surroundingsOf(cow)) != Move.STAND
         }
+    }
+
+    @Test
+    void doesnt_walk_off_map() {
+        def pasture = getTestPasture(1, 2)
+        def cow = new TtogttoghanCow()
+        pasture[0][0].actors.add(cow)
+
+        50.times {
+            assert cow.move(pasture.surroundingsOf(cow)) == Move.MOVE_RIGHT
+        }
+    }
+
+    @Test
+    void removes_void_moves() {
+        def pasture = getTestPasture(1, 2)
+        def cow = new TtogttoghanCow()
+        pasture[0][0].actors.add(cow)
+
+        def options = cow.moves.keySet().toList()
+        cow.removeVoidMoves(options, pasture)
+        assert options.size() == 1
+        assert options[0] == Move.MOVE_RIGHT
     }
 
     @Test

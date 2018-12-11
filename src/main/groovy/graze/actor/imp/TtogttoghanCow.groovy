@@ -1,6 +1,7 @@
 package graze.actor.imp
 
 import graze.actor.*
+import graze.pasture.Tile
 import graze.pasture.Pasture
 
 /**
@@ -26,14 +27,19 @@ class TtogttoghanCow extends Cow {
     }
 
     Move move(Pasture surroundings) {
+        // Start with a list of potential moves
+        List<Move> potentialMoves = moves.keySet().toList()
+
+        // Remove moves that would lead to non-existent tiles
+        removeVoidMoves(potentialMoves, surroundings)
+
         // Remove redundant move from the pool of possible moves
-        def redundantMove = moves[lastMove]
-        def goodMoves = moves
-        goodMoves.remove(redundantMove)
+        Move redundantMove = moves[lastMove]
+        potentialMoves.remove(redundantMove)
 
         // Pick a random move
-        def chosen = brain.nextInt(goodMoves.size())
-        def chosenMove = goodMoves.keySet()[chosen]
+        int chosen = brain.nextInt(potentialMoves.size())
+        Move chosenMove = potentialMoves[chosen]
 
         // Remember our chosen move
         lastMove = chosenMove
@@ -43,5 +49,33 @@ class TtogttoghanCow extends Cow {
 
     Action act(Pasture surroundings) {
         return Action.EAT
+    }
+
+    void removeVoidMoves (List<Move> givenMoves, Pasture surroundings) {
+        def badMoves = []
+        givenMoves.each { move ->
+            Tile targetTile
+
+            switch (move) {
+                case Move.MOVE_UP:
+                    targetTile = surroundings.above(this)
+                    break
+                case Move.MOVE_DOWN:
+                    targetTile = surroundings.below(this)
+                    break
+                case Move.MOVE_LEFT:
+                    targetTile = surroundings.leftOf(this)
+                    break
+                case Move.MOVE_RIGHT:
+                    targetTile = surroundings.rightOf(this)
+                    break
+            }
+
+            if (targetTile == null) {
+                badMoves.add(move)
+            }
+        }
+
+        givenMoves.removeAll(badMoves)
     }
 }
