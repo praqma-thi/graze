@@ -42,7 +42,7 @@ class Game {
 
             if (!config["canvas.enabled"]) {
                 if (config["loop.king"]) {
-                    println pasture.allActorClasses()[0] ?: 'stalemate'
+                    println getActorClasses()[0] ?: 'stalemate'
                 } else {
                     println dayCount
                 }
@@ -50,8 +50,12 @@ class Game {
         }
     }
 
+    List<Class> getActorClasses() {
+        return actors.collect { it.class }.unique()
+    }
+
     boolean endGame() {
-        def survivingActors = actors.collect { it.class }.unique()
+        def survivingActors = getActorClasses()
         if (config["loop.king"]) {
             switch (survivingActors.size()) {
                 case 0:
