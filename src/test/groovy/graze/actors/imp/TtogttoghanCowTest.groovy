@@ -1,29 +1,15 @@
 package graze.actor.imp
 
 import org.junit.Test
-import graze.pasture.*
 import graze.actor.*
+import graze.actor.imp.TtogttoghanCow
+import graze.utils.TestUtils
 
 class TtogttoghanCowTest {
-    Pasture getTestPasture() {
-        return getTestPasture(3, 3)
-    }
-
-    Pasture getTestPasture(int rows, int columns) {
-        Pasture pasture = [] as Pasture
-        rows.times {
-            def row = []
-            columns.times {
-                row.add(new Tile())
-            }
-            pasture.add(row)
-        }
-        return pasture
-    }
 
     @Test
     void always_eats() {
-        def pasture = getTestPasture()
+        def pasture = TestUtils.getEmptyPasture()
         def cow = new TtogttoghanCow()
         pasture[1][1].actors.add(cow)
 
@@ -34,7 +20,7 @@ class TtogttoghanCowTest {
 
     @Test
     void never_stands_still() {
-        def pasture = getTestPasture()
+        def pasture = TestUtils.getEmptyPasture()
         def cow = new TtogttoghanCow()
         pasture[1][1].actors.add(cow)
 
@@ -45,7 +31,7 @@ class TtogttoghanCowTest {
 
     @Test
     void doesnt_walk_off_map() {
-        def pasture = getTestPasture(1, 2)
+        def pasture = TestUtils.getEmptyPasture(1, 2)
         def cow = new TtogttoghanCow()
         pasture[0][0].actors.add(cow)
 
@@ -56,7 +42,7 @@ class TtogttoghanCowTest {
 
     @Test
     void moves_to_grass() {
-        def pasture = getTestPasture(3, 3)
+        def pasture = TestUtils.getEmptyPasture(3, 3)
         def cow = new TtogttoghanCow()
         pasture[1][1].actors.add(cow)
         pasture[1][0].actors.add(new Grass())
@@ -68,7 +54,7 @@ class TtogttoghanCowTest {
 
     @Test
     void removes_void_moves() {
-        def pasture = getTestPasture(1, 2)
+        def pasture = TestUtils.getEmptyPasture(1, 2)
         def cow = new TtogttoghanCow()
         pasture[0][0].actors.add(cow)
 
@@ -80,7 +66,7 @@ class TtogttoghanCowTest {
 
     @Test
     void no_redundant_moves() {
-        def pasture = getTestPasture()
+        def pasture = TestUtils.getEmptyPasture()
         def cow = new TtogttoghanCow()
         pasture[1][1].actors.add(cow)
 
