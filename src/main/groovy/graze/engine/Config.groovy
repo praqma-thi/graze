@@ -7,7 +7,7 @@ class Config extends HashMap<String, Object> {
         this."loop.sleep" = 200
         this."pasture.height" = 30
         this."pasture.width" = 30
-        this."cows" = [
+        this."actors" = [
             "graze.actor.imp.RCow": 5,
             "graze.actor.imp.SmartCow": 5,
         ]

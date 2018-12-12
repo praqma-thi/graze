@@ -7,7 +7,7 @@ import graze.pasture.Pasture
 /**
 * author: Beatrice Pendleton
 */
-class TtogttoghanCow extends Cow {
+class TtogttoghanCow extends Actor {
     // The brain of the cow, used to make intelligent decisions
     final Random brain = new Random()
 

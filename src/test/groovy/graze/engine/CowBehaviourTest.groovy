@@ -1,4 +1,4 @@
-package graze.engine
+package graze.behaviour.imp
 
 import org.junit.Test
 import org.junit.Before
@@ -9,127 +9,128 @@ import graze.pasture.*
 
 class CowBehaviourTest {
     Pasture pasture
-    ArrayList<Cow> cows
+    ArrayList<Actor> actors
+    CowBehaviour cowBehaviour = new CowBehaviour()
     PastureGenerator generator = new PastureGenerator().actors(WeightedMap.from([null: 1])).width(5).height(5)
 
     @Before
     void setup() {
         pasture = generator.generate()
-        def cow = new RCow()
-        pasture.getTile(2, 2).actors.add(cow)
-        cows = [cow]
+        def actor = new RCow()
+        pasture.getTile(2, 2).actors.add(actor)
+        actors = [actor]
     }
 
     @Test
-    void cow_poops() {
-        cows.each { cow ->
-            cow.poop = 5
-            CowBehaviour.act(cow, pasture, Action.POOP)
-            assert cow.poop == 0
+    void actor_poops() {
+        actors.each { actor ->
+            actor.poop = 5
+            cowBehaviour.act(actor, pasture, Action.POOP)
+            assert actor.poop == 0
         }
     }
 
     @Test
-    void cow_eats_grass() {
+    void actor_eats_grass() {
         pasture.getTile(2, 2).actors.add(new Grass())
-        cows.each { cow ->
-            cow.food = 0
-            cow.poop = 0
-            CowBehaviour.act(cow, pasture, Action.EAT)
-            assert cow.food == 1
-            assert cow.poop == 1
+        actors.each { actor ->
+            actor.food = 0
+            actor.poop = 0
+            cowBehaviour.act(actor, pasture, Action.EAT)
+            assert actor.food == 1
+            assert actor.poop == 1
             assert !pasture.getTile(2, 2).actors.any { it instanceof Grass }
         }
     }
 
     @Test
-    void cow_doesnt_eat_grass_when_sharing_tile_with_other_cows() {
+    void actor_doesnt_eat_grass_when_sharing_tile_with_other_actors() {
         pasture.getTile(2, 2).actors.add(new Grass())
         pasture.getTile(2, 2).actors.add(new RCow())
-        cows.each { cow ->
-            cow.food = 0
-            cow.poop = 0
-            CowBehaviour.act(cow, pasture, Action.EAT)
-            assert cow.food == 0
-            assert cow.poop == 0
+        actors.each { actor ->
+            actor.food = 0
+            actor.poop = 0
+            cowBehaviour.act(actor, pasture, Action.EAT)
+            assert actor.food == 0
+            assert actor.poop == 0
             assert pasture.getTile(2, 2).actors.any { it instanceof Grass }
         }
     }
 
     @Test
-    void cow_doesnt_eat_without_grass() {
-        cows.each { cow ->
-            cow.food = 0
-            cow.poop = 0
-            CowBehaviour.act(cow, pasture, Action.EAT)
-            assert cow.food == 0
-            assert cow.poop == 0
+    void actor_doesnt_eat_without_grass() {
+        actors.each { actor ->
+            actor.food = 0
+            actor.poop = 0
+            cowBehaviour.act(actor, pasture, Action.EAT)
+            assert actor.food == 0
+            assert actor.poop == 0
         }
     }
 
     @Test
-    void cow_doesnt_escape() {
-        cows.each { cow ->
+    void actor_doesnt_escape() {
+        actors.each { actor ->
             10.times {
-                CowBehaviour.move(cow, pasture, Move.MOVE_LEFT)
+                cowBehaviour.move(actor, pasture, Move.MOVE_LEFT)
             }
-            def c = pasture.coordinatesOf(cow)
+            def c = pasture.coordinatesOf(actor)
             assert c.x == 0
         }
     }
 
     @Test
-    void cow_passes() {
-        cows.each { cow ->
-            CowBehaviour.act(cow, pasture, Action.PASS)
+    void actor_passes() {
+        actors.each { actor ->
+            cowBehaviour.act(actor, pasture, Action.PASS)
         }
     }
 
     @Test
-    void cow_stands() {
-        cows.each { cow ->
-            def was = pasture.coordinatesOf(cow)
-            CowBehaviour.move(cow, pasture, Move.STAND)
-            def is = pasture.coordinatesOf(cow)
+    void actor_stands() {
+        actors.each { actor ->
+            def was = pasture.coordinatesOf(actor)
+            cowBehaviour.move(actor, pasture, Move.STAND)
+            def is = pasture.coordinatesOf(actor)
             assert was == is
         }
     }
 
     @Test
-    void cow_moves_left() {
-        cows.each { cow ->
-            CowBehaviour.move(cow, pasture, Move.MOVE_LEFT)
-            def c = pasture.coordinatesOf(cow)
+    void actor_moves_left() {
+        actors.each { actor ->
+            cowBehaviour.move(actor, pasture, Move.MOVE_LEFT)
+            def c = pasture.coordinatesOf(actor)
             assert c.x == 1
             assert c.y == 2
         }
     }
 
     @Test
-    void cow_moves_right() {
-        cows.each { cow ->
-            CowBehaviour.move(cow, pasture, Move.MOVE_RIGHT)
-            def c = pasture.coordinatesOf(cow)
+    void actor_moves_right() {
+        actors.each { actor ->
+            cowBehaviour.move(actor, pasture, Move.MOVE_RIGHT)
+            def c = pasture.coordinatesOf(actor)
             assert c.x == 3
             assert c.y == 2
         }
     }
 
     @Test
-    void cow_moves_up() {
-        cows.each { cow ->
-            CowBehaviour.move(cow, pasture, Move.MOVE_UP)
-            def c = pasture.coordinatesOf(cow)
+    void actor_moves_up() {
+        actors.each { actor ->
+            cowBehaviour.move(actor, pasture, Move.MOVE_UP)
+            def c = pasture.coordinatesOf(actor)
             assert c.x == 2
             assert c.y == 1
         }
     }
 
     @Test
-    void cow_moves_down() {
-        cows.each { cow ->
-            CowBehaviour.move(cow, pasture, Move.MOVE_DOWN)
-            def c = pasture.coordinatesOf(cow)
+    void actor_moves_down() {
+        actors.each { actor ->
+            cowBehaviour.move(actor, pasture, Move.MOVE_DOWN)
+            def c = pasture.coordinatesOf(actor)
             assert c.x == 2
             assert c.y == 3
         }

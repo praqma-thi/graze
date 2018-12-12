@@ -5,7 +5,7 @@ import graze.engine.Color
 import graze.pasture.Pasture
 import graze.pasture.Tile
 
-class SmartCow extends Cow {
+class SmartCow extends Actor {
     Move lastMove
 
     String getIcon() {

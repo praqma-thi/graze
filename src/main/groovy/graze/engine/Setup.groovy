@@ -19,23 +19,23 @@ class Setup {
             .generate()
     }
 
-    ArrayList<Cow> newCows() {
-        config["cows"].collectMany { className, count ->
-            def cows = []
+    ArrayList<Actor> newActors() {
+        config["actors"].collectMany { className, count ->
+            def actors = []
             count.times { 
-                def cow = Class.forName(className).newInstance()
-                cows.add(cow)
+                def actor = Class.forName(className).newInstance()
+                actors.add(actor)
             }
-            return cows
+            return actors
         }
     }
 
-    void placeCows(ArrayList cows, Pasture pasture) {
+    void placeActors(ArrayList actors, Pasture pasture) {
         def random = new Random()
-        cows.each { cow ->
+        actors.each { actor ->
             def x = random.nextInt(pasture.width)
             def y = random.nextInt(pasture.height)
-            pasture.getTile(x, y).actors.add(cow)
+            pasture.getTile(x, y).actors.add(actor)
         }
     }
 }

@@ -2,12 +2,13 @@ package graze.actor.imp
 
 import graze.actor.*
 import graze.pasture.Pasture
+import graze.engine.Color
 
-class RCow extends Actor {
+class Wolf extends Actor {
     Random brain = new Random()
 
     String getIcon() {
-        return 'R'
+        return Color.red('W')
     }
 
     Move move(Pasture surroundings) {
@@ -15,6 +16,6 @@ class RCow extends Actor {
     }
 
     Action act(Pasture surroundings) {
-        return Action.values()[brain.nextInt(Action.values().length)]
+        return Action.EAT
     }
 }

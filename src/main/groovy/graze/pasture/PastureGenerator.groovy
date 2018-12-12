@@ -1,6 +1,6 @@
 package graze.pasture
 
-import graze.actor.Grass
+import graze.actor.imp.Grass
 
 class PastureGenerator {
 
