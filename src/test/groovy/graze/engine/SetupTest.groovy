@@ -1,7 +1,7 @@
 package graze.engine
 
 import org.junit.Test
-import graze.actor.Cow
+import graze.actor.Actor
 import graze.actor.imp.RCow
 import graze.pasture.Tile
 import graze.pasture.Pasture
@@ -11,7 +11,7 @@ class SetupTest {
         Config c = new Config()
         c["pasture.width"] = 15
         c["pasture.height"] = 15
-        c["cows"] = [
+        c["actors"] = [
             "graze.actor.imp.RCow": 15
         ]
         return c
@@ -25,20 +25,20 @@ class SetupTest {
     }
 
     @Test
-    void newCows_creates_cows() {
+    void newActors_creates_actors() {
         Setup setup = new Setup(getTestConfig())
-        ArrayList<Cow> cows = setup.newCows()
-        assert cows.size() == 15
+        ArrayList<Actor> actors = setup.newActors()
+        assert actors.size() == 15
     }
 
     @Test
-    void placeCows_places_all_cows() {
+    void placeActors_places_all_actors() {
         Setup setup = new Setup(getTestConfig())
         Pasture pasture = setup.newPasture()
-        ArrayList<Cow> cows = setup.newCows()
-        setup.placeCows(cows, pasture)
-        cows.each { cow ->
-            assert pasture.coordinatesOf(cow) != null
+        ArrayList<Actor> actors = setup.newActors()
+        setup.placeActors(actors, pasture)
+        actors.each { actor ->
+            assert pasture.coordinatesOf(actor) != null
         }
     }
 }

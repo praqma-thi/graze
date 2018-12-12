@@ -3,7 +3,7 @@ package graze.actor.imp
 import graze.actor.*
 import graze.pasture.Pasture
 
-class RCow extends Cow {
+class RCow extends Actor {
     Random brain = new Random()
 
     String getIcon() {

@@ -26,7 +26,7 @@ class ConfigTest {
         def configFile = File.createTempFile('parses_nested_settings', 'json')
         configFile.text = """\
         {
-            "cows": {
+            "actors": {
                 "graze.actor.imp.RCow": 20
             }
         }
@@ -34,6 +34,6 @@ class ConfigTest {
         configFile.deleteOnExit()
 
         def config = new Config(configFile)
-        assert config["cows"]["graze.actor.imp.RCow"] == 20
+        assert config["actors"]["graze.actor.imp.RCow"] == 20
     }
 }

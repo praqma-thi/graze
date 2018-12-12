@@ -1,21 +1,23 @@
 package graze.engine
 
 import graze.actor.*
+import graze.actor.imp.*
+import graze.behaviour.imp.*
 import graze.pasture.*
-import graze.actor.*
+
 
 class Game {
     final Config config
     final Pasture pasture
-    final ArrayList<Cow> cows
+    final ArrayList<Actor> actors
 
     Game(Config config) {
         this.config = config
 
         Setup setup = new Setup(config)
         pasture = setup.newPasture()
-        cows = setup.newCows()
-        setup.placeCows(cows, pasture)
+        actors = setup.newActors()
+        setup.placeActors(actors, pasture)
 
         Canvas.instance.pasture = pasture
     }
@@ -40,7 +42,7 @@ class Game {
 
             if (!config["canvas.enabled"]) {
                 if (config["loop.king"]) {
-                    println pasture.allCowClasses()[0] ?: 'stalemate'
+                    println pasture.allActorClasses()[0] ?: 'stalemate'
                 } else {
                     println dayCount
                 }
@@ -49,28 +51,80 @@ class Game {
     }
 
     boolean endGame() {
-        def survivingCows = pasture.allCowClasses()
+        def survivingActors = actors.collect { it.class }.unique()
         if (config["loop.king"]) {
-            switch (survivingCows.size()) {
+            switch (survivingActors.size()) {
                 case 0:
                     Canvas.instance.message "Wow. They all died. Stalemate?"
                     return true
                 case 1:
                     Canvas.instance.message "Winner winner chicken dinner!"
-                    Canvas.instance.message "<<< ${survivingCows[0]} >>>"
+                    Canvas.instance.message "<<< ${survivingActors[0]} >>>"
                     return true
                 default:
                     return false
             }
         } else {
-            return survivingCows.size() == 0
+            return survivingActors.size() == 0
         }
     }
 
     void doTurn(int turnCount) {
-        def allCows = pasture.allCows()
-        allCows.each { cow -> CowBehaviour.move(cow, pasture, cow.move(pasture.surroundingsOf(cow))) }
-        allCows.each { cow -> CowBehaviour.act(cow, pasture, cow.act(pasture.surroundingsOf(cow))) }
-        if (turnCount % 3 == 0) { allCows.each { cow -> CowBehaviour.getHungry(cow, pasture) } }
+        List<Actor> removedActors = []
+        actors.each { actor ->
+            Pasture surroundings = pasture.surroundingsOf(actor)
+            if (!surroundings) {
+                removedActors.add(actor)
+                return
+            }
+
+            if (actor instanceof Grass) {
+                new GrassBehaviour().move(actor, pasture, actor.move(surroundings))
+            } else if (actor instanceof Wolf) {
+                new WolfBehaviour().move(actor, pasture, actor.move(surroundings))
+            } else {
+                new CowBehaviour().move(actor, pasture, actor.move(surroundings))
+            }
+        }
+        actors.removeAll(removedActors)
+        removedActors.clear()
+
+        actors.each { actor ->
+            Pasture surroundings = pasture.surroundingsOf(actor)
+            if (!surroundings) {
+                removedActors.add(actor)
+                return
+            }
+
+            if (actor instanceof Grass) {
+                new GrassBehaviour().act(actor, pasture, actor.act(surroundings)) 
+            } else if (actor instanceof Wolf) {
+                new WolfBehaviour().act(actor, pasture, actor.act(surroundings)) 
+            } else {
+                new CowBehaviour().act(actor, pasture, actor.act(surroundings)) 
+            }
+        }
+        actors.removeAll(removedActors)
+        removedActors.clear()
+
+        if (turnCount % 3 == 0) {
+            actors.each { actor ->
+                Pasture surroundings = pasture.surroundingsOf(actor)
+                if (!surroundings) {
+                    removedActors.add(actor)
+                    return
+                }
+
+                if (actor instanceof Grass) {
+                    new GrassBehaviour().getHungry(actor, pasture)
+                } else if (actor instanceof Wolf) {
+                    new WolfBehaviour().getHungry(actor, pasture)
+                } else {
+                    new CowBehaviour().getHungry(actor, pasture)
+                }
+            }
+        }
+        actors.removeAll(removedActors)
+        removedActors.clear()
     }
 }

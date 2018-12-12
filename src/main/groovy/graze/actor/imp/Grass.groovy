@@ -1,5 +1,6 @@
-package graze.actor
+package graze.actor.imp
 
+import graze.actor.*
 import graze.engine.Color
 import graze.pasture.Pasture
 
