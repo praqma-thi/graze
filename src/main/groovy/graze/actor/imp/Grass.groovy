@@ -4,7 +4,7 @@ import graze.actor.*
 import graze.engine.Color
 import graze.pasture.Pasture
 
-class Grass extends Actor {
+class Grass extends Plant {
     String getIcon() {
         return Color.green('.')
     }

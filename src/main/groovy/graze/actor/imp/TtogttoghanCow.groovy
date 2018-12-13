@@ -1,13 +1,12 @@
 package graze.actor.imp
 
 import graze.actor.*
-import graze.pasture.Tile
-import graze.pasture.Pasture
+import graze.pasture.*
 
 /**
 * author: Beatrice Pendleton
 */
-class TtogttoghanCow extends Actor {
+class TtogttoghanCow extends Grazer {
     // The brain of the cow, used to make intelligent decisions
     final Random brain = new Random()
 

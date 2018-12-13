@@ -1,13 +1,12 @@
-package graze.behaviour.imp
+package graze.actor
 
 import graze.actor.*
 import graze.actor.imp.*
-import graze.behaviour.ActorBehaviour
 import graze.pasture.*
 import graze.engine.Canvas
 
-class WolfBehaviour extends ActorBehaviour {
-    void eat(Actor actor, Tile tile) {
+abstract class Hunter extends Actor {
+    void eat(Tile tile) {
         List<Actor> cows = cowsOn(tile)
 
         if (cows.size() == 0) {
@@ -20,9 +19,9 @@ class WolfBehaviour extends ActorBehaviour {
         } else {
             Actor randomCow = cows[new Random().nextInt(cows.size())]
             scare(randomCow, tile)
-        }
+        } 
 
-        eatTrailMix(actor)
+        eatTrailMix()
     }
 
     List<Actor> cowsOn(Tile tile) {
@@ -36,6 +35,6 @@ class WolfBehaviour extends ActorBehaviour {
     }
 
     void eatTrailMix(Actor wolf) {
-        wolf.food += 5
+        food += 5
     }
 }

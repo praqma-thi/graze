@@ -9,7 +9,6 @@ import graze.pasture.*
 import graze.utils.TestUtils
 
 class WolfBehaviourTest {
-    WolfBehaviour wolfBehaviour = new WolfBehaviour()
     Pasture pasture
     Wolf wolf
 
@@ -32,7 +31,7 @@ class WolfBehaviourTest {
 
         pasture[1][1].actors.add(wolf)
         pasture[1][1].actors.add(cow)
-        wolfBehaviour.eat(wolf, pasture.tileOf(wolf))
+        wolf.eat(pasture.tileOf(wolf))
 
         assert wolf.food == 5
         assert pasture.tileOf(cow) == null
@@ -48,7 +47,7 @@ class WolfBehaviourTest {
 
         pasture[1][1].actors.add(wolf)
         pasture[1][1].actors.add(wolf2)
-        wolfBehaviour.eat(wolf, pasture.tileOf(wolf))
+        wolf.eat(pasture.tileOf(wolf))
 
         assert wolf.food == 0
         assert pasture.tileOf(wolf2) == pasture.tileOf(wolf)
@@ -64,7 +63,7 @@ class WolfBehaviourTest {
 
         pasture[1][1].actors.add(wolf)
         pasture[1][1].actors.add(grass)
-        wolfBehaviour.eat(wolf, pasture.tileOf(wolf))
+        wolf.eat(pasture.tileOf(wolf))
 
         assert wolf.food == 0
         assert pasture.tileOf(grass) == pasture.tileOf(wolf)

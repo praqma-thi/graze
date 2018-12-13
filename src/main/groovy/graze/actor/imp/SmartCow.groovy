@@ -2,10 +2,9 @@ package graze.actor.imp
 
 import graze.actor.*
 import graze.engine.Color
-import graze.pasture.Pasture
-import graze.pasture.Tile
+import graze.pasture.*
 
-class SmartCow extends Actor {
+class SmartCow extends Grazer {
     Move lastMove
 
     String getIcon() {

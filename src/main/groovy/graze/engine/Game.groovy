@@ -2,9 +2,7 @@ package graze.engine
 
 import graze.actor.*
 import graze.actor.imp.*
-import graze.behaviour.imp.*
 import graze.pasture.*
-
 
 class Game {
     final Config config
@@ -82,13 +80,7 @@ class Game {
                 return
             }
 
-            if (actor instanceof Grass) {
-                new GrassBehaviour().move(actor, pasture, actor.move(surroundings))
-            } else if (actor instanceof Wolf) {
-                new WolfBehaviour().move(actor, pasture, actor.move(surroundings))
-            } else {
-                new CowBehaviour().move(actor, pasture, actor.move(surroundings))
-            }
+            actor.move(pasture, actor.move(surroundings))
         }
         actors.removeAll(removedActors)
         removedActors.clear()
@@ -100,13 +92,7 @@ class Game {
                 return
             }
 
-            if (actor instanceof Grass) {
-                new GrassBehaviour().act(actor, pasture, actor.act(surroundings)) 
-            } else if (actor instanceof Wolf) {
-                new WolfBehaviour().act(actor, pasture, actor.act(surroundings)) 
-            } else {
-                new CowBehaviour().act(actor, pasture, actor.act(surroundings)) 
-            }
+            actor.act(pasture, actor.act(surroundings))
         }
         actors.removeAll(removedActors)
         removedActors.clear()
@@ -119,13 +105,7 @@ class Game {
                     return
                 }
 
-                if (actor instanceof Grass) {
-                    new GrassBehaviour().getHungry(actor, pasture)
-                } else if (actor instanceof Wolf) {
-                    new WolfBehaviour().getHungry(actor, pasture)
-                } else {
-                    new CowBehaviour().getHungry(actor, pasture)
-                }
+                actor.getHungry(pasture)
             }
         }
         actors.removeAll(removedActors)
