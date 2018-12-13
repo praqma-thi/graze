@@ -49,7 +49,7 @@ class Game {
     }
 
     List<Class> getActorClasses() {
-        return actors.collect { it.class }.unique()
+        return actors.grep { it instanceof Grazer }.collect { it.class }.unique()
     }
 
     boolean endGame() {

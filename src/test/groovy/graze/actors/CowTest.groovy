@@ -38,7 +38,7 @@ class CowTest {
     }
 
     @Test
-    void actor_poops() {
+    void cow_poops() {
         actors.each { actor ->
             actor.poop = 5
             actor.act(pasture, Action.POOP)
@@ -47,7 +47,7 @@ class CowTest {
     }
 
     @Test
-    void actor_eats_grass() {
+    void cow_eats_grass() {
         pasture.getTile(2, 2).actors.add(new Grass())
         actors.each { actor ->
             actor.food = 0
@@ -60,7 +60,20 @@ class CowTest {
     }
 
     @Test
-    void actor_doesnt_eat_grass_when_sharing_tile_with_other_actors() {
+    void cow_eats_troll_grass() {
+        pasture.getTile(2, 2).actors.add(new TrollGrass())
+        actors.each { actor ->
+            actor.food = 0
+            actor.poop = 0
+            actor.act(pasture, Action.EAT)
+            assert actor.food == 1
+            assert actor.poop == 1
+            assert !pasture.getTile(2, 2).actors.any { it instanceof TrollGrass }
+        }
+    }
+
+    @Test
+    void cow_doesnt_eat_grass_when_sharing_tile_with_other_actors() {
         pasture.getTile(2, 2).actors.add(new Grass())
         pasture.getTile(2, 2).actors.add(new RCow())
         actors.each { actor ->
@@ -74,7 +87,7 @@ class CowTest {
     }
 
     @Test
-    void actor_doesnt_eat_without_grass() {
+    void cow_doesnt_eat_without_grass() {
         actors.each { actor ->
             actor.food = 0
             actor.poop = 0
@@ -85,7 +98,7 @@ class CowTest {
     }
 
     @Test
-    void actor_doesnt_escape() {
+    void cow_doesnt_escape() {
         actors.each { actor ->
             10.times {
                 actor.move(pasture, Move.MOVE_LEFT)
@@ -96,14 +109,14 @@ class CowTest {
     }
 
     @Test
-    void actor_passes() {
+    void cow_passes() {
         actors.each { actor ->
             actor.act(pasture, Action.PASS)
         }
     }
 
     @Test
-    void actor_stands() {
+    void cow_stands() {
         actors.each { actor ->
             def was = pasture.coordinatesOf(actor)
             actor.move(pasture, Move.STAND)
@@ -113,7 +126,7 @@ class CowTest {
     }
 
     @Test
-    void actor_moves_left() {
+    void cow_moves_left() {
         actors.each { actor ->
             actor.move(pasture, Move.MOVE_LEFT)
             def c = pasture.coordinatesOf(actor)
@@ -123,7 +136,7 @@ class CowTest {
     }
 
     @Test
-    void actor_moves_right() {
+    void cow_moves_right() {
         actors.each { actor ->
             actor.move(pasture, Move.MOVE_RIGHT)
             def c = pasture.coordinatesOf(actor)
@@ -133,7 +146,7 @@ class CowTest {
     }
 
     @Test
-    void actor_moves_up() {
+    void cow_moves_up() {
         actors.each { actor ->
             actor.move(pasture, Move.MOVE_UP)
             def c = pasture.coordinatesOf(actor)
@@ -143,7 +156,7 @@ class CowTest {
     }
 
     @Test
-    void actor_moves_down() {
+    void cow_moves_down() {
         actors.each { actor ->
             actor.move(pasture, Move.MOVE_DOWN)
             def c = pasture.coordinatesOf(actor)
