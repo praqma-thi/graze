@@ -7,7 +7,7 @@ class TheBestCowOffalTime extends Grazer {
     Random brain = new Random()
 
     String getIcon() {
-        return 'OffalTime'
+        return 'ThisIsTheLongestNameACowCanHaveAndYouAreFreeToProveMeWrong'
     }
 
     Move move(Pasture surroundings) {
@@ -15,6 +15,6 @@ class TheBestCowOffalTime extends Grazer {
     }
 
     Action act(Pasture surroundings) {
-        return Action.values()[brain.nextInt(Action.values().length)]
+        return Action.EAT
     }
 }
